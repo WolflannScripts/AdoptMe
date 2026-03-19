@@ -1,252 +1,3957 @@
--- Gui to Lua
--- Version: 3.2
 
--- Instances:
+if Key == nil or Key ~= 'Oswasjad109' then
+    while true do
+        wait(1)
+    end
+end
 
-local Spawner = Instance.new("ScreenGui")
-local Main = Instance.new("Frame")
-local T = Instance.new("TextLabel")
-local UICorner = Instance.new("UICorner")
-local NFR = Instance.new("TextButton")
-local UICorner_2 = Instance.new("UICorner")
-local MFR = Instance.new("TextButton")
-local UICorner_3 = Instance.new("UICorner")
-local MFR_2 = Instance.new("TextButton")
-local UICorner_4 = Instance.new("UICorner")
-local NameBox = Instance.new("TextBox")
-local UICorner_5 = Instance.new("UICorner")
-local Spawn = Instance.new("TextButton")
-local UICorner_6 = Instance.new("UICorner")
-local petType = "NFR"
+repeat
+    task.wait()
+until game:IsLoaded()
 
-local function duplicatePet(petName)
-    local Loads = require(game.ReplicatedStorage.Fsys).load
-    local ClientData = Loads("ClientData")
-    local InventoryDB = Loads("InventoryDB")
-    local Inventory = ClientData.get("inventory")
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+if game.PlaceId ~= 920587237 then
+    return
+end
 
-    local function generate_prop()
-        return {
-            flyable = true,
-            rideable = true,
-            neon = petType == "NFR" or petType == "MFR",
-            mega_neon = petType == "MFR",
-            age = 1
+local _LocalPlayer = game.Players.LocalPlayer
+
+if _LocalPlayer.PlayerGui.AssetLoadUI.Enabled then
+    repeat
+        task.wait()
+    until not _LocalPlayer.PlayerGui.AssetLoadUI.Enabled and _LocalPlayer.PlayerGui.NewsApp.Enabled
+
+    task.wait(0.5)
+end
+
+local function v5(p2)
+    local v3, v4 = pcall(function()
+        firesignal(p2.MouseButton1Down)
+        task.wait(1)
+        firesignal(p2.MouseButton1Click)
+        task.wait(1)
+    end)
+
+    if not v3 then
+        warn('Something went wrong while clicking play button: ' .. v4)
+    end
+end
+
+if _LocalPlayer.PlayerGui.NewsApp.Enabled then
+    v5((_LocalPlayer.PlayerGui.NewsApp:WaitForChild('EnclosingFrame'):WaitForChild('MainFrame'):WaitForChild('Buttons'):WaitForChild('PlayButton')))
+end
+
+local u6 = 1
+
+if getgenv().TbiConfigs then
+    for v8 = 1, #getgenv().TbiConfigs + 1 do
+        local v8 = v8
+
+        if getgenv().TbiConfigs[v8] == nil then
+            getgenv().TbiConfigs[v8] = {State = true}
+            u6 = v8
+
+            break
+        end
+
+        getgenv().TbiConfigs[v8].State = false
+    end
+else
+    getgenv().TbiConfigs = {
+        {State = true},
+    }
+end
+
+local u9 = getthreadidentity or getidentity
+local u10 = setthreadidentity or setidentity
+local v12, _ = pcall(function()
+    local v11 = u9()
+
+    u10(2)
+    u10(v11)
+end)
+
+if not v12 then
+    game.Players.LocalPlayer:Kick('Unfortunately your executer does not support this script. Please use another one. We recommend an emulator/mobile executer like delta')
+end
+
+local u13 = loadstring(game:HttpGet('https://raw.githubusercontent.com/TbiGui/Extras/refs/heads/main/Gui'))()
+local u14 = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local _RunService = game:GetService('RunService')
+local _VirtualUser = game:service('VirtualUser')
+local _HttpService = game:GetService('HttpService')
+local v18 = u14
+local v19 = u14.CreateWindow(v18, {
+    Name = 'TbiGui Window - Beta',
+    Icon = 116531676650470,
+    LoadingTitle = 'TbiGui Interface',
+    LoadingSubtitle = 'by tbi',
+    Theme = 'Default',
+    DisableRayfieldPrompts = true,
+    DisableBuildWarnings = false,
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = 'TBIGUISAVECONFIGS',
+        FileName = 'TBIGUISAVES',
+    },
+})
+
+function Notification(p20)
+    u14:Notify({
+        Title = 'Error',
+        Content = p20,
+        Duration = 3,
+        Image = nil,
+    })
+end
+function InfoNotification(p21)
+    u14:Notify({
+        Title = 'Info',
+        Content = p21,
+        Duration = 3,
+        Image = nil,
+    })
+end
+
+AilmentsClientRe = require(game:GetService('ReplicatedStorage').new.modules.Ailments.AilmentsClient)
+
+local u22 = {}
+local u23 = {}
+local u24 = {}
+local u25 = 'None'
+local u26 = 'None'
+local u27 = 'None'
+local u28 = 'pet_age_potion'
+local u29 = false
+local u30 = false
+local u31 = false
+local u32 = ''
+
+tick()
+
+local u33 = ''
+local u34 = tick()
+local u35 = 300
+local u36 = ''
+local u37 = false
+local u38 = request or syn.request
+local u39 = false
+local u40 = 2
+local u41 = tick()
+local u42 = 'https://discord.gg/TFUD4S7z6q'
+local u43 = setclipboard or toclipboard
+local u44 = false
+local u45 = Vector3.new(200, 2, 200)
+local u46 = Color3.new(0.231373, 0.231373, 0.231373)
+local u47 = nil
+local u48 = false
+local u49 = 50
+local u50 = 2
+local u51 = 0
+local u52 = 1
+local u53 = 0
+local u54 = 0
+local u55 = 0
+local u56 = 0
+local u57 = {
+    PetAutofarm = {
+        State = false,
+        Running = false,
+    },
+    AgePotionFarm = {
+        State = false,
+        Running = false,
+    },
+    AutoHatchEggs = {
+        State = false,
+        Running = false,
+    },
+    AutoGiveAgePotions = {
+        State = false,
+        Running = false,
+    },
+    AutofarmCherryBlossom = {
+        State = false,
+        Running = false,
+    },
+    AutofarmKaijuStomp = {
+        State = false,
+        Running = false,
+    },
+    AutofarmKaijuStompAndBlossom = {
+        State = false,
+        Running = false,
+    },
+}
+local u58 = {
+    SwitchOutPets = false,
+    FarmAllPets = false,
+    SwitchOutEggs = false,
+    HatchAllEggs = false,
+}
+local u59 = {
+    TransferBucksWithCashRegister = false,
+    TransferBucksWithMannequin = false,
+}
+
+({}).Monitor = 111564759577958
+
+local u60 = true
+local u61 = false
+local u62 = false
+local u63 = ''
+local u64 = ''
+local u65 = 50
+local u66 = false
+local _Players = game:GetService('Players')
+local _Main = v19:CreateTab('Main', 'monitor')
+
+_Main:CreateSection('Main')
+_Main:CreateLabel('This adopt me script is in beta and still under development! There may still be bugs', 'info', nil, false)
+_Main:CreateDivider()
+
+local _Autofarm = v19:CreateTab('Autofarm', 'mouse-pointer')
+
+_Autofarm:CreateSection('Info')
+
+local _Youearned0Bucks = _Autofarm:CreateLabel('You earned: 0 Bucks', 'circle-dollar-sign', nil, false)
+local _Youfarmed0AgePotions = _Autofarm:CreateLabel('You farmed: 0 Age Potions', 'cup-soda', nil, false)
+local _Buckstransfer = v19:CreateTab('Bucks transfer', 'hand-coins')
+local _Extras = v19:CreateTab('Extras', 'wrench')
+local _Misc = v19:CreateTab('Misc', 'circle-ellipsis')
+local _, _ = pcall(function()
+    u54 = u13.GetPlayerMoney()
+
+    local _food = u13.GetPlayersInventory().food
+    local v76, v77, v78 = pairs(_food)
+    local v79 = 0
+
+    while true do
+        local v80
+
+        v78, v80 = v76(v77, v78)
+
+        if v78 == nil then
+            break
+        end
+        if v80.kind == 'pet_age_potion' then
+            v79 = v79 + 1
+        end
+    end
+
+    u56 = v79
+end)
+
+function IsOtherAutofarmOn(p81)
+    local v82, v83, v84 = pairs(u57)
+
+    while true do
+        local v85
+
+        v84, v85 = v82(v83, v84)
+
+        if v84 == nil then
+            break
+        end
+        if v84 ~= p81 and v85.State then
+            return true
+        end
+    end
+
+    return false
+end
+function CheckIfOtherExtra(p86)
+    local v87, v88, v89 = pairs(u58)
+
+    while true do
+        local v90
+
+        v89, v90 = v87(v88, v89)
+
+        if v89 == nil then
+            break
+        end
+
+        task.wait()
+
+        if v89 ~= p86 and v90 == true then
+            Notification('Please turn off (' .. v89 .. ') to be able to use this one!')
+
+            return true
+        end
+    end
+
+    return false
+end
+function CheckIfOtherTransfer(p91)
+    local v92, v93, v94 = pairs(u59)
+
+    while true do
+        local v95
+
+        v94, v95 = v92(v93, v94)
+
+        if v94 == nil then
+            break
+        end
+
+        task.wait()
+
+        if v94 ~= p91 and v95 == true then
+            Notification('Please turn off (' .. v94 .. ') to be able to use this one!')
+
+            return true
+        end
+    end
+
+    return false
+end
+function GetActivAutofarm()
+    local v96, v97, v98 = pairs(u57)
+
+    while true do
+        local v99
+
+        v98, v99 = v96(v97, v98)
+
+        if v98 == nil then
+            break
+        end
+        if v99.State then
+            return v98
+        end
+    end
+
+    return ''
+end
+function SendNothicationToWebhook()
+    local v100 = u13.GetPlayerMoney()
+    local v101 = u13.GetPlayerPotionAmount()
+    local v102 = {
+        title = 'Notification from TbiGui (' .. _LocalPlayer.Name .. ')',
+        color = 5814783,
+        fields = {
+            {
+                name = 'Bucks:',
+                value = '```' .. u53 .. ' earned, Total: ' .. v100 .. '```',
+                inline = false,
+            },
+            {
+                name = 'Potions:',
+                value = '```' .. u55 .. ' farmed, Total: ' .. v101 .. '```',
+                inline = false,
+            },
+        },
+    }
+    local v103 = u38
+    local v104 = {
+        Url = u36,
+        Method = 'POST',
+        Headers = {
+            ['Content-Type'] = 'application/json',
+        },
+        Body = _HttpService:JSONEncode({
+            content = '@everyone',
+            embeds = {v102},
+        }),
+    }
+
+    v103(v104)
+end
+function DoMysteryPetNeed()
+    local v106, _ = pcall(function()
+        local v105 = u9()
+
+        u10(2)
+        require(game.ReplicatedStorage.new.modules.LegacyLoad)('InventoryDB')
+        u10(v105)
+    end)
+
+    if v106 then
+        u60 = true
+    else
+        task.wait(0.2)
+        DoMysteryPetNeedToggle:Set(false)
+
+        u60 = false
+
+        Notification('Your executer doesnt support mystery pet need or the version is too old')
+    end
+end
+function updatePlatformForLocalPlayer()
+    if _LocalPlayer and _LocalPlayer.Character and _LocalPlayer.Character:FindFirstChild('HumanoidRootPart') then
+        local _HumanoidRootPart = _LocalPlayer.Character.HumanoidRootPart
+
+        if workspace:FindFirstChild('PlayerPlatform') then
+            u47 = workspace:FindFirstChild('PlayerPlatform')
+        end
+        if not (u47 or workspace:FindFirstChild('PlayerPlatform')) then
+            u47 = Instance.new('Part')
+            u47.Size = u45
+            u47.Color = u46
+            u47.Anchored = true
+            u47.CanCollide = true
+            u47.Name = 'PlayerPlatform'
+            u47.Parent = workspace
+        end
+        if math.abs(u47.Position.Y - (_HumanoidRootPart.Position.Y - (_HumanoidRootPart.Size.Y / 2 + u47.Size.Y / 2) - 2)) > 10 then
+            u47.Position = _HumanoidRootPart.Position - Vector3.new(0, _HumanoidRootPart.Size.Y / 2 + u47.Size.Y / 2 + 2, 0)
+        end
+
+        u47.Color = u46
+    end
+end
+
+local function u119(p108)
+    local u109 = _LocalPlayer.Character or _LocalPlayer.CharacterAdded:Wait()
+    local _Humanoid = u109:WaitForChild('Humanoid')
+
+    if p108 then
+        if u48 then
+            return
+        end
+
+        u48 = true
+
+        local function u115(p111, p112)
+            local v113 = math.cos(p112) * u49
+            local v114 = math.sin(p112) * u49
+
+            return p111 + Vector3.new(v113, 0, v114)
+        end
+
+        local _Position = u109.PrimaryPart.Position
+        local u117 = 0
+
+        _RunService:BindToRenderStep('CircleMovement', Enum.RenderPriority.Character.Value, function(p118)
+            if u48 then
+                u51 = u51 + u50 * p118
+
+                _Humanoid:MoveTo((u115(_Position, u51)))
+
+                _Position = u109.PrimaryPart.Position
+                u117 = u117 + p118
+
+                if u52 <= u117 then
+                    _Humanoid.Jump = true
+                    u117 = 0
+                end
+            end
+        end)
+    else
+        u48 = false
+
+        _RunService:UnbindFromRenderStep('CircleMovement')
+        _Humanoid:Move(Vector3.new(0, 0, 0), false)
+        _Humanoid:MoveTo(u109.PrimaryPart.Position)
+        task.spawn(function()
+            task.wait(0.1)
+
+            _Humanoid.Jump = true
+        end)
+    end
+end
+
+function SetPlatformForPlayer(p120)
+    u44 = p120
+
+    if u44 then
+        spawn(function()
+            while u44 do
+                updatePlatformForLocalPlayer()
+                task.wait(0.5)
+            end
+        end)
+    end
+end
+function DeleteAllPlatforms()
+    local v121, v122, v123 = pairs(workspace:GetChildren())
+
+    while true do
+        local v124
+
+        v123, v124 = v121(v122, v123)
+
+        if v123 == nil then
+            break
+        end
+
+        task.wait()
+
+        if v124:IsA('Part') and v124.Name == 'PlayerPlatform' then
+            v124:Destroy()
+        end
+    end
+
+    u47 = nil
+end
+function UpdatePlayerPets()
+    u13.UnequipAllPets()
+
+    if u25 ~= 'None' then
+        u13.EquipPet(u25, false)
+    end
+    if u26 ~= 'None' then
+        u13.EquipPet(u26, true)
+    end
+end
+function UpdatePlayerPets2()
+    u13.UnequipAllPets()
+
+    if u27 ~= 'None' then
+        u13.EquipPet(u27)
+    end
+end
+function ResetPlayerPets()
+    if u25 ~= 'None' then
+        u25 = 'None'
+
+        FirstPetDropdown:Set({
+            'None',
+        })
+    end
+    if u26 ~= 'None' then
+        u26 = 'None'
+
+        SecondPetDropdown:Set({
+            'None',
+        })
+    end
+end
+
+local u125 = false
+
+function SetDropDown(p126)
+    u125 = true
+
+    if p126 == '1' then
+        wait(0.2)
+        Notification('Dont select the same Pet')
+        FirstPetDropdown:Set({
+            'None',
+        })
+
+        u25 = 'None'
+    end
+    if p126 == '2' then
+        wait(0.2)
+        Notification('Dont select the same Pet')
+        SecondPetDropdown:Set({
+            'None',
+        })
+
+        u26 = 'None'
+    end
+    if p126 == '3' then
+        wait(0.2)
+        Notification('Please select Main Pet first')
+        SecondPetDropdown:Set({
+            'None',
+        })
+
+        u26 = 'None'
+    end
+    if p126 == '4' then
+        wait(0.2)
+        Notification('You dont have 2x pets equip')
+        SecondPetDropdown:Set({
+            'None',
+        })
+
+        u26 = 'None'
+    end
+
+    u125 = false
+end
+function UpdatePetDropdown()
+    u24 = {}
+    u23 = {}
+
+    local v127, v128, v129 = pairs(u13.GetPlayersInventory().pets)
+    local v130 = {}
+
+    while true do
+        local v131
+
+        v129, v131 = v127(v128, v129)
+
+        if v129 == nil then
+            break
+        end
+        if v131.id ~= 'practice_dog' then
+            table.insert(v130, {
+                id = v129,
+                name = v131.id,
+                age = v131.properties.age,
+            })
+        end
+    end
+
+    table.sort(v130, function(p132, p133)
+        local v134 = p132.name:lower()
+        local v135 = p133.name:lower()
+
+        if v134 == v135 then
+            return u13.NaturalSort(p132.id, p133.id)
+        else
+            return v134 < v135
+        end
+    end)
+
+    local v136, v137, v138 = ipairs(v130)
+
+    while true do
+        local v139
+
+        v138, v139 = v136(v137, v138)
+
+        if v138 == nil then
+            break
+        end
+
+        u23[v138] = v138 .. '=' .. v139.name .. ': ' .. v139.age .. ' -- ' .. u13.GetFirstSixLetters(v139.id)
+        u24[v138] = {
+            id = v139.id,
+            kind = v139.name,
+            age = v139.age,
+            countid = v138,
         }
     end
 
-    local function cloneTable(original)
-        local copy = {}
-        for key, value in pairs(original) do
-            if type(value) == "table" then
-                copy[key] = cloneTable(value)
-            else
-                copy[key] = value
-            end
+    FirstPetDropdown:Refresh(u23)
+    SecondPetDropdown:Refresh(u23)
+    AgePotionsPetSelectDropdown:Refresh(u23)
+end
+function GetPetCountId(p140)
+    local v141, v142, v143 = pairs(u24)
+
+    while true do
+        local v144
+
+        v143, v144 = v141(v142, v143)
+
+        if v143 == nil then
+            break
         end
-        return copy
+        if v144.id == p140 then
+            return v144.countid or false
+        end
+    end
+end
+function UpdatePetDropdownForSearch(p145)
+    local v146, v147, v148 = pairs(u23)
+    local v149 = {}
+
+    while true do
+        local v150
+
+        v148, v150 = v146(v147, v148)
+
+        if v148 == nil then
+            break
+        end
+        if string.find(v150:lower(), p145:lower()) then
+            table.insert(v149, v150)
+        end
     end
 
-    for category_name, category_table in pairs(InventoryDB) do
-        for id, item in pairs(category_table) do
-            if category_name == "pets" and item.name == petName then
-                local fake_uuid = game.HttpService:GenerateGUID()
-                local n_item = cloneTable(item)
+    FirstPetDropdown:Refresh(v149)
+    SecondPetDropdown:Refresh(v149)
+end
+function UpdatePetDropdownForSearch2(p151)
+    local v152, v153, v154 = pairs(u23)
+    local v155 = {}
 
-                n_item["unique"] = "uuid_" .. fake_uuid
-                n_item["category"] = "pets"
-                n_item["properties"] = generate_prop()
-                n_item["newness_order"] = math.random(1, 900000)
+    while true do
+        local v156
 
-                if not Inventory[category_name] then
-                    Inventory[category_name] = {}
+        v154, v156 = v152(v153, v154)
+
+        if v154 == nil then
+            break
+        end
+        if string.find(v156:lower(), p151:lower()) then
+            table.insert(v155, v156)
+        end
+    end
+
+    AgePotionsPetSelectDropdown:Refresh(v155)
+end
+
+_Main:CreateSlider({
+    Name = 'Player Walk Speed',
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = 'WalkSpeed',
+    CurrentValue = 16,
+    Flag = 'WalkSpeedSlider',
+    Callback = function(p157)
+        local _LocalPlayer2 = game.Players.LocalPlayer;
+
+        (_LocalPlayer2.Character or _LocalPlayer2.CharacterAdded:Wait()):WaitForChild('Humanoid').WalkSpeed = p157
+    end,
+})
+_Main:CreateSlider({
+    Name = 'Player Jump Power',
+    Range = {0, 250},
+    Increment = 1,
+    Suffix = 'JumpPower',
+    CurrentValue = 50,
+    Flag = 'JumpPowerSlider',
+    Callback = function(p159)
+        local _LocalPlayer3 = game.Players.LocalPlayer;
+
+        (_LocalPlayer3.Character or _LocalPlayer3.CharacterAdded:Wait()):WaitForChild('Humanoid').JumpPower = p159
+    end,
+})
+_Main:CreateSection('Performance')
+_Main:CreateToggle({
+    Name = 'Disable Rendering (makes the screen white, helps to reduce lags during afk grinding)',
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p161)
+        _RunService:Set3dRenderingEnabled(not p161)
+    end,
+})
+_Main:CreateSlider({
+    Name = 'Tick-Delay',
+    Range = {0.1, 5},
+    Increment = 0.1,
+    Suffix = 'Seconds',
+    CurrentValue = 2,
+    Flag = 'IntervallSlider',
+    Callback = function(p162)
+        u40 = p162
+    end,
+})
+_Main:CreateSlider({
+    Name = 'Fps cap',
+    Range = {5, 120},
+    Increment = 1,
+    Suffix = 'fps',
+    CurrentValue = 60,
+    Flag = 'FpsCapSlider',
+    Callback = function(p163)
+        local v164, _ = pcall(function()
+            setfpscap(p163)
+        end)
+
+        if not v164 then
+            Notification("Your executer doesn't support fpscap")
+        end
+    end,
+})
+_Players.LocalPlayer.Idled:Connect(function()
+    print('Player Idled')
+    _VirtualUser:CaptureController()
+    _VirtualUser:ClickButton2(Vector2.new())
+end)
+_Autofarm:CreateToggle({
+    Name = 'Disable Information (Might reduce lags)',
+    CurrentValue = false,
+    Flag = 'ToggleInfo',
+    Callback = function(p165)
+        u62 = p165
+    end,
+})
+_Autofarm:CreateSection('Settings')
+_Autofarm:CreateColorPicker({
+    Name = 'Pick Color for Platform',
+    Color = Color3.new(0.231373, 0.231373, 0.231373),
+    Flag = 'PlatformColorPicker',
+    Callback = function(p166)
+        u46 = p166
+    end,
+})
+_Autofarm:CreateButton({
+    Name = 'Destroy Platform',
+    Callback = function()
+        DeleteAllPlatforms()
+    end,
+})
+
+DisableSomeAilments = _Autofarm:CreateDropdown({
+    Name = 'Select ailments to disable them',
+    Options = {
+        'hungry',
+        'thirsty',
+        'sleepy',
+        'dirty',
+        'toilet',
+        'sick',
+        'play',
+        'ride',
+        'salon',
+        'bored',
+        'camping',
+        'beach_party',
+        'pizza_party',
+        'moon',
+        'school',
+        'walk',
+        'pet_me',
+    },
+    CurrentOption = {
+        'None',
+    },
+    MultipleOptions = true,
+    Flag = 'DisableSomeAilments',
+    Callback = function(p167)
+        u22 = {}
+
+        local v168, v169, v170 = pairs(p167)
+
+        while true do
+            local v171
+
+            v170, v171 = v168(v169, v170)
+
+            if v170 == nil then
+                break
+            end
+            if p167[v170] ~= 'None' then
+                table.insert(u22, p167[v170])
+            end
+        end
+    end,
+})
+
+_Autofarm:CreateSection('Pet Selection')
+_Autofarm:CreateLabel('Info for the Dropdown: (Order=PetKind: PetAge -- PetId)', 'info', nil, false)
+_Autofarm:CreateInput({
+    Name = 'Search Pet',
+    CurrentValue = '',
+    PlaceholderText = 'Write the pet name here',
+    RemoveTextAfterFocusLost = false,
+    Flag = nil,
+    Callback = function(p172)
+        if u13.isOnlyLetters(p172) then
+            UpdatePetDropdownForSearch(p172)
+        elseif p172 == '' then
+            UpdatePetDropdown()
+        else
+            Notification('Be sure that you only use letters (a-z)')
+        end
+    end,
+})
+
+FirstPetDropdown = _Autofarm:CreateDropdown({
+    Name = 'Select First Pet',
+    Options = u23,
+    CurrentOption = {
+        'None',
+    },
+    MultipleOptions = false,
+    Flag = 'FirstPetDropdown',
+    Callback = function(p173)
+        local v174, v175, v176 = pairs(p173)
+
+        while true do
+            local v177
+
+            v176, v177 = v174(v175, v176)
+
+            if v176 == nil then
+                break
+            end
+            if p173[v176] ~= 'None' then
+                if not (u24[tonumber(u13.GetNumberBeforeEqual(p173[v176]))] and u24[tonumber(u13.GetNumberBeforeEqual(p173[v176]))].id) then
+                    return
                 end
 
-                Inventory[category_name][fake_uuid] = n_item
+                local _id = u24[tonumber(u13.GetNumberBeforeEqual(p173[v176]))].id
+
+                if not (string.find(p173[v176], u24[tonumber(u13.GetNumberBeforeEqual(p173[v176]))].kind) and string.find(p173[v176], u13.GetFirstSixLetters(u24[tonumber(u13.GetNumberBeforeEqual(p173[v176]))].id))) then
+                    u25 = 'None'
+
+                    FirstPetDropdown:Set({
+                        'None',
+                    })
+                    Notification('Something went wrong when loading the first dropdown pet, the position of the pet is different or the animal is no longer available')
+
+                    return
+                end
+                if u26 == _id or _id == nil then
+                    if p173[v176] ~= 'None' then
+                        SetDropDown('1')
+
+                        break
+                    end
+                else
+                    u25 = _id
+
+                    UpdatePlayerPets()
+                end
+            end
+        end
+    end,
+})
+SecondPetDropdown = _Autofarm:CreateDropdown({
+    Name = 'Select Second Pet',
+    Options = u23,
+    CurrentOption = {
+        'None',
+    },
+    MultipleOptions = false,
+    Flag = 'SecondPetDropdown',
+    Callback = function(p179)
+        if u125 then
+            return
+        end
+        if u13.GetCertificate() then
+            local v180, v181, v182 = pairs(p179)
+
+            while true do
+                local v183
+
+                v182, v183 = v180(v181, v182)
+
+                if v182 == nil then
+                    break
+                end
+                if p179[v182] ~= 'None' then
+                    if not (u24[tonumber(u13.GetNumberBeforeEqual(p179[v182]))] and u24[tonumber(u13.GetNumberBeforeEqual(p179[v182]))].id) then
+                        return
+                    end
+
+                    local _id2 = u24[tonumber(u13.GetNumberBeforeEqual(p179[v182]))].id
+
+                    if not (string.find(p179[v182], u24[tonumber(u13.GetNumberBeforeEqual(p179[v182]))].kind) and string.find(p179[v182], u13.GetFirstSixLetters(u24[tonumber(u13.GetNumberBeforeEqual(p179[v182]))].id))) then
+                        u26 = 'None'
+
+                        SecondPetDropdown:Set({
+                            'None',
+                        })
+                        Notification('Something went wrong when loading the second dropdown pet, the position of the pet is different or the animal is no longer available')
+
+                        return
+                    end
+                    if u25 == 'None' then
+                        if p179[v182] ~= 'None' then
+                            SetDropDown('3')
+
+                            break
+                        end
+                    elseif u25 == _id2 or _id2 == nil then
+                        if p179[v182] ~= 'None' then
+                            SetDropDown('2')
+
+                            break
+                        end
+                    else
+                        u26 = _id2
+
+                        UpdatePlayerPets()
+                    end
+                end
+            end
+        else
+            SetDropDown('4')
+        end
+    end,
+})
+
+_Autofarm:CreateButton({
+    Name = 'Refresh Pets Dropdown',
+    Callback = function()
+        UpdatePetDropdown()
+    end,
+})
+_Autofarm:CreateButton({
+    Name = 'Reset Pets Dropdown',
+    Callback = function()
+        ResetPlayerPets()
+    end,
+})
+_Autofarm:CreateSection('Pet Autofarm')
+
+PetAutofarmToggle = _Autofarm:CreateToggle({
+    Name = 'Autofarm selected Pets',
+    CurrentValue = false,
+    Flag = 'PetAutofarmToggle',
+    Callback = function(p185)
+        if p185 then
+            if IsOtherAutofarmOn('PetAutofarm') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                PetAutofarmToggle:Set(false)
+            else
+                u57.PetAutofarm.State = p185
+            end
+        else
+            u57.PetAutofarm.State = p185
+
+            SetPlatformForPlayer(false)
+        end
+    end,
+})
+AutofarmAgePotionsToggle = _Autofarm:CreateToggle({
+    Name = 'Autofarm Age Potions',
+    CurrentValue = false,
+    Flag = 'AutofarmAgePotionsToggle',
+    Callback = function(p186)
+        if p186 then
+            if IsOtherAutofarmOn('AgePotionFarm') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                AutofarmAgePotionsToggle:Set(false)
+            else
+                u57.AgePotionFarm.State = p186
+            end
+        else
+            u57.AgePotionFarm.State = p186
+
+            SetPlatformForPlayer(false)
+        end
+    end,
+})
+AutoHatchEggsToggle = _Autofarm:CreateToggle({
+    Name = 'Autohatch Eggs',
+    CurrentValue = false,
+    Flag = 'AutoHatchEggsToggle',
+    Callback = function(p187)
+        if p187 then
+            if IsOtherAutofarmOn('AutoHatchEggs') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                AutoHatchEggsToggle:Set(false)
+            else
+                u57.AutoHatchEggs.State = p187
+            end
+        else
+            u57.AutoHatchEggs.State = p187
+
+            SetPlatformForPlayer(false)
+        end
+    end,
+})
+
+local u188 = nil
+
+_Autofarm:CreateSection('Baby Autofarm')
+
+u188 = _Autofarm:CreateToggle({
+    Name = 'Autofarm Baby',
+    CurrentValue = false,
+    Flag = 'BabySection',
+    Callback = function(p189)
+        if p189 then
+            if IsOtherAutofarmOn('') then
+                u61 = p189
+
+                u13.SetPlayerToBaby()
+            else
+                Notification('You must have activated one of the pet autofarms')
+                u188:Set(false)
+                u13.SetPlayerToParent()
+            end
+        else
+            u61 = p189
+
+            u13.SetPlayerToParent()
+        end
+    end,
+})
+
+_Autofarm:CreateSection('Extras')
+
+DoMysteryPetNeedToggle = _Autofarm:CreateToggle({
+    Name = 'Do mystery pet need',
+    CurrentValue = true,
+    Flag = 'DoMysteryPetNeedToggle',
+    Callback = function(p190)
+        if p190 then
+            DoMysteryPetNeed()
+        else
+            u60 = false
+        end
+    end,
+})
+
+_Autofarm:CreateDivider()
+
+local u192 = _Autofarm:CreateToggle({
+    Name = 'Switch out same Pet when Fullgrown',
+    CurrentValue = false,
+    Flag = 'PetSwitchOutToggle',
+    Callback = function(p191)
+        if p191 then
+            PetSwitchOutToggleFunc()
+        else
+            u58.SwitchOutPets = false
+        end
+    end,
+})
+
+function PetSwitchOutToggleFunc()
+    if CheckIfOtherExtra('SwitchOut') then
+        wait(0.2)
+        u192:Set(false)
+
+        u58.SwitchOutPets = false
+    else
+        u58.SwitchOutPets = true
+    end
+end
+
+local u194 = _Autofarm:CreateToggle({
+    Name = 'Farm all pets (will switch to random pet)',
+    CurrentValue = false,
+    Flag = 'FarmAllPetsToggle',
+    Callback = function(p193)
+        if p193 then
+            FarmAllPetsToggleFunc()
+        else
+            u58.FarmAllPets = false
+        end
+    end,
+})
+
+function FarmAllPetsToggleFunc()
+    if CheckIfOtherExtra('FarmAllPets') then
+        wait(0.2)
+        u194:Set(false)
+
+        u58.FarmAllPets = false
+    else
+        u58.FarmAllPets = true
+    end
+end
+
+_Autofarm:CreateDivider()
+
+local u196 = _Autofarm:CreateToggle({
+    Name = 'Switch out same Egg when hatched',
+    CurrentValue = false,
+    Flag = 'EggSwitchOutToggle',
+    Callback = function(p195)
+        if p195 then
+            EggSwitchOutToggleFunc()
+        else
+            u58.SwitchOutEggs = false
+        end
+    end,
+})
+
+function EggSwitchOutToggleFunc()
+    if CheckIfOtherExtra('SwitchOutEggs') then
+        wait(0.2)
+        u196:Set(false)
+
+        u58.SwitchOutEggs = false
+    else
+        u58.SwitchOutEggs = true
+    end
+end
+
+_Autofarm:CreateToggle({
+    Name = 'Hatch all Eggs (will switch to random egg)',
+    CurrentValue = false,
+    Flag = 'FarmAllEggsToggle',
+    Callback = function(p197)
+        if p197 then
+            HatchAllEggsToggleFunc()
+        else
+            u58.HatchAllEggs = false
+        end
+    end,
+})
+
+function HatchAllEggsToggleFunc()
+    if CheckIfOtherExtra('HatchAllEggs') then
+        wait(0.2)
+        AutoHatchEggsToggle:Set(false)
+
+        u58.HatchAllEggs = false
+    else
+        u58.HatchAllEggs = true
+    end
+end
+
+_Autofarm:CreateSection('Events')
+_Autofarm:CreateLabel('the combo and blossoms you collect in the minigame are not displayed, but you collect them anyway, after the minigame you get them', 'info', nil, false)
+
+local u198 = false
+
+AutofarmAFKPlaceToggle = _Autofarm:CreateToggle({
+    Name = 'Autofarm afk blossom place (Will be at afk place while minigame timer is over 30 sec)',
+    CurrentValue = false,
+    Flag = 'AutofarmAFKPlace',
+    Callback = function(p199)
+        u198 = p199
+    end,
+})
+
+_Autofarm:CreateDivider()
+
+AutofarmCherryBlossomToggle = _Autofarm:CreateToggle({
+    Name = 'Autofarm Cherry Blossom Festival',
+    CurrentValue = false,
+    Flag = 'CherryBlossom',
+    Callback = function(p200)
+        if p200 then
+            if IsOtherAutofarmOn('AutofarmIceDimension') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                AutofarmCherryBlossomToggle:Set(false)
+                SetPlatformForPlayer(false)
+            else
+                u57.AutofarmCherryBlossom.State = p200
+            end
+        else
+            u57.AutofarmCherryBlossom.State = p200
+        end
+    end,
+})
+AutofarmKaijuStompToggle = _Autofarm:CreateToggle({
+    Name = 'Autofarm Kaiju Stomp Minigame',
+    CurrentValue = false,
+    Flag = 'AutofarmKaijuStompToggle',
+    Callback = function(p201)
+        if p201 then
+            if IsOtherAutofarmOn('AutofarmKaijuStomp') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                AutofarmKaijuStompToggle:Set(false)
+                SetPlatformForPlayer(false)
+            else
+                u57.AutofarmKaijuStomp.State = p201
+            end
+        else
+            u57.AutofarmKaijuStomp.State = p201
+        end
+    end,
+})
+AutofarmKaijuStompAndBlossomToggle = _Autofarm:CreateToggle({
+    Name = 'Autofarm Kaiju Stomp + Cherry Blossom Minigame',
+    CurrentValue = false,
+    Flag = 'AutofarmKaijuStompAndBlossomToggle',
+    Callback = function(p202)
+        if p202 then
+            if IsOtherAutofarmOn('AutofarmKaijuStompAndBlossom') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                AutofarmKaijuStompAndBlossomToggle:Set(false)
+                SetPlatformForPlayer(false)
+            else
+                u57.AutofarmKaijuStompAndBlossom.State = p202
+            end
+        else
+            u57.AutofarmKaijuStompAndBlossom.State = p202
+        end
+    end,
+})
+
+_Buckstransfer:CreateSection('Settings')
+_Buckstransfer:CreateToggle({
+    Name = "Disable 'Okay' Dialogs",
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p203)
+        u66 = p203
+
+        if p203 then
+            DisableDialog()
+        end
+    end,
+})
+_Buckstransfer:CreateSection('Cash Register')
+_Buckstransfer:CreateLabel('Transfer up to 150 bucks every 2 minutes', 'info', nil, false)
+
+local _Scaninfonone = _Buckstransfer:CreateLabel('Scan info: none', 'info', nil, false)
+
+_Buckstransfer:CreateButton({
+    Name = 'Scan for Cash Register',
+    Callback = function()
+        ScanForRegister()
+    end,
+})
+_Buckstransfer:CreateSlider({
+    Name = 'Amount of bucks to pay to cash register',
+    Range = {1, 50},
+    Increment = 1,
+    Suffix = 'Bucks',
+    CurrentValue = 50,
+    Flag = 'PayBucksToRegisterSlider',
+    Callback = function(p205)
+        u65 = p205
+    end,
+})
+_Buckstransfer:CreateDivider()
+
+local u207 = _Buckstransfer:CreateToggle({
+    Name = 'Transfer bucks with cash register',
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p206)
+        u59.TransferBucksWithCashRegister = p206
+
+        if p206 then
+            FarmWithRegisterFunc()
+        end
+    end,
+})
+
+_Extras:CreateSection('Auto give potions')
+_Extras:CreateInput({
+    Name = 'Search Pet',
+    CurrentValue = '',
+    PlaceholderText = 'Write the pet name here',
+    RemoveTextAfterFocusLost = false,
+    Flag = nil,
+    Callback = function(p208)
+        if u13.isOnlyLetters(p208) then
+            UpdatePetDropdownForSearch2(p208)
+        elseif p208 == '' then
+            UpdatePetDropdown()
+        else
+            Notification('Be sure that you only use letters (a-z)')
+        end
+    end,
+})
+
+function AgePetSelection(p209)
+    local v210 = u13.GetPlayersPetConfigs(p209)
+    local _isEgg = u13.GetPetConfigs(v210.petKind).isEgg
+
+    if v210.petAge and v210.petAge >= 6 then
+        Notification('this pet must not be fully grown')
+        AgePotionsPetSelectDropdown:Set({
+            'None',
+        })
+
+        u27 = 'None'
+
+        UpdatePlayerPets2()
+    elseif _isEgg then
+        Notification('This Pet cant use potions!')
+        AgePotionsPetSelectDropdown:Set({
+            'None',
+        })
+
+        u27 = 'None'
+
+        UpdatePlayerPets2()
+    else
+        u27 = p209
+
+        UpdatePlayerPets2()
+    end
+end
+
+AgePotionsPetSelectDropdown = _Extras:CreateDropdown({
+    Name = 'Select a Pet',
+    Options = u23,
+    CurrentOption = {
+        'None',
+    },
+    MultipleOptions = false,
+    Flag = nil,
+    Callback = function(p212)
+        local v213, v214, v215 = pairs(p212)
+
+        while true do
+            local v216
+
+            v215, v216 = v213(v214, v215)
+
+            if v215 == nil then
+                break
+            end
+            if p212[v215] ~= 'None' then
+                local _id3 = u24[tonumber(u13.GetNumberBeforeEqual(p212[v215]))].id
+
+                AgePetSelection(_id3)
+            end
+        end
+    end,
+})
+
+UpdatePetDropdown()
+
+UseTinyAgePotions = _Extras:CreateToggle({
+    Name = 'Use tiny age potions',
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p218)
+        if p218 then
+            u28 = 'tiny_pet_age_potion'
+        else
+            u28 = 'pet_age_potion'
+        end
+    end,
+})
+
+_Extras:CreateDivider()
+
+GivePetAgePotions = _Extras:CreateToggle({
+    Name = 'auto give selected pet potions',
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p219)
+        if p219 then
+            if IsOtherAutofarmOn('AutoGiveAgePotion') then
+                Notification('Please turn off (' .. GetActivAutofarm() .. ') to be able to use this one!')
+                GivePetAgePotions:Set(false)
+            else
+                u57.AutoGiveAgePotions.State = p219
+            end
+        else
+            u57.AutoGiveAgePotions.State = p219
+        end
+    end,
+})
+ChangePetAgePotions = _Extras:CreateToggle({
+    Name = 'switch to same pet when full grown',
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p220)
+        u29 = p220
+    end,
+})
+
+_Extras:CreateSection('Lure')
+
+LureSelectDropdown = _Extras:CreateDropdown({
+    Name = 'Select lure',
+    Options = {
+        'ice_dimension_2025_shiver_cone_bait',
+        'ice_dimension_2025_subzero_popsicle_bait',
+        'ice_dimension_2025_ice_soup_bait',
+    },
+    CurrentOption = {
+        'ice_dimension_2025_ice_soup_bait',
+    },
+    MultipleOptions = false,
+    Flag = 'LureSelectDropdown',
+    Callback = function(p221)
+        local v222, v223, v224 = pairs(p221)
+
+        while true do
+            local v225
+
+            v224, v225 = v222(v223, v224)
+
+            if v224 == nil then
+                break
+            end
+            if p221[v224] ~= 'None' then
+                u33 = p221[v224]
+            end
+        end
+    end,
+})
+
+_Extras:CreateToggle({
+    Name = 'autofarm selected lure',
+    CurrentValue = false,
+    Flag = 'AutoFarmLureToggle',
+    Callback = function(p226)
+        u30 = p226
+    end,
+})
+_Extras:CreateSection('Visual stuff')
+_Extras:CreateButton({
+    Name = 'make equipped pets fly and ride',
+    Callback = function()
+        local v233, v234 = pcall(function()
+            local v227, v228, v229 = pairs(u13.GetPetPetEntityManager().get_local_owned_pet_entities())
+
+            while true do
+                local u230
+
+                v229, u230 = v227(v228, v229)
+
+                if v229 == nil then
+                    break
+                end
+
+                table.foreach(u13.GetPlayersInventory().pets, function(p231, p232)
+                    if string.find(u230.unique_id, p231) then
+                        p232.properties.flyable = true
+                        p232.properties.rideable = true
+                    end
+                end)
+            end
+        end)
+
+        if not v233 then
+            Notification('Something went wrong: ' .. v234)
+        end
+    end,
+})
+_Extras:CreateDivider()
+_Extras:CreateButton({
+    Name = 'make all pets neon',
+    Callback = function()
+        local v236, v237 = pcall(function()
+            table.foreach(u13.GetPlayersInventory().pets, function(_, p235)
+                p235.properties.neon = true
+            end)
+        end)
+
+        if not v236 then
+            Notification('Something went wrong: ' .. v237)
+        end
+    end,
+})
+_Extras:CreateButton({
+    Name = 'make all pets mega',
+    Callback = function()
+        local v239, v240 = pcall(function()
+            table.foreach(u13.GetPlayersInventory().pets, function(_, p238)
+                p238.properties.mega_neon = true
+            end)
+        end)
+
+        if not v239 then
+            Notification('Something went wrong: ' .. v240)
+        end
+    end,
+})
+_Extras:CreateButton({
+    Name = 'make all pets fly and ride',
+    Callback = function()
+        local v242, v243 = pcall(function()
+            table.foreach(u13.GetPlayersInventory().pets, function(_, p241)
+                p241.properties.flyable = true
+                p241.properties.rideable = true
+            end)
+        end)
+
+        if not v242 then
+            Notification('Something went wrong: ' .. v243)
+        end
+    end,
+})
+_Misc:CreateSection('Discord')
+_Misc:CreateLabel('Any problems? Join our discord server below', 'circle-help', nil, false)
+_Misc:CreateButton({
+    Name = 'Copy discord link to clipboard',
+    Callback = function()
+        u43(tostring(u42))
+        InfoNotification('Copied discord link')
+    end,
+})
+_Misc:CreateSection('Webhooks')
+_Misc:CreateInput({
+    Name = 'Webhook notifications',
+    CurrentValue = '',
+    PlaceholderText = 'paste your webhook here in',
+    RemoveTextAfterFocusLost = false,
+    Flag = 'SetWebhookInput',
+    Callback = function(p244)
+        u36 = p244
+    end,
+})
+_Misc:CreateSlider({
+    Name = 'Interval between the individual webhook notifications',
+    Range = {1, 30},
+    Increment = 1,
+    Suffix = 'Minutes',
+    CurrentValue = 5,
+    Flag = 'WebhookIntervalSlider',
+    Callback = function(p245)
+        u35 = p245 * 60
+    end,
+})
+_Misc:CreateToggle({
+    Name = 'Send notifications to webhook',
+    CurrentValue = false,
+    Flag = 'SendWebhooksToggle',
+    Callback = function(p246)
+        u37 = p246
+    end,
+})
+_Misc:CreateButton({
+    Name = 'Test Webhook',
+    Callback = function()
+        local v247, v248 = pcall(function()
+            SendNothicationToWebhook()
+        end)
+
+        if v247 then
+            InfoNotification('Test was successful')
+        else
+            Notification('Something went wrong: ' .. v248)
+        end
+    end,
+})
+_Misc:CreateSection('Debug')
+_Misc:CreateToggle({
+    Name = 'Print debug messages',
+    CurrentValue = false,
+    Flag = nil,
+    Callback = function(p249)
+        u39 = p249
+    end,
+})
+_Misc:CreateSection('Infos')
+_Misc:CreateParagraph({
+    Title = 'Furniture that the script automatically buys if not available in the house:',
+    Content = '- BasicCrib\n- StylishShower\n- AilmentsRefresh2024CheapWaterBowl\n- AilmentsRefresh2024CheapFoodBowl\n- Toilet',
+})
+
+function DisableDialog()
+    task.spawn(function()
+        if u66 then
+            while u66 do
+                local _NormalDialog = game.Players.LocalPlayer:WaitForChild('PlayerGui'):WaitForChild('DialogApp').Dialog.NormalDialog
+
+                task.wait()
+
+                if _NormalDialog.Visible then
+                    _NormalDialog.Parent.Parent.Enabled = false
+                else
+                    _NormalDialog.Parent.Parent.Enabled = true
+                end
+            end
+
+            game.Players.LocalPlayer:WaitForChild('PlayerGui'):WaitForChild('DialogApp').Dialog.NormalDialog.Parent.Parent.Enabled = true
+        end
+    end)
+end
+function ScanForRegister()
+    u63 = ''
+    u64 = ''
+
+    local v251 = workspace.HouseInteriors:WaitForChild('furniture'):GetChildren()
+    local v252, v253, v254 = pairs(v251)
+
+    while true do
+        local v255
+
+        v254, v255 = v252(v253, v254)
+
+        if v254 == nil then
+            break
+        end
+
+        task.wait()
+
+        if not (v255:IsA('Folder') and v255:FindFirstChildWhichIsA('Model')) then
+            Notification('You must be in a house to scan')
+            _Scaninfonone:Set('Scan info: failed', 'circle-x', nil, false)
+
+            return
+        end
+        if string.find(v255.Name, game.Players.LocalPlayer.Name) then
+            Notification("you can't scan in your own house")
+            _Scaninfonone:Set('Scan info: failed', 'circle-x', nil, false)
+
+            return
+        end
+        if v255:FindFirstChild('CashRegister') then
+            u63 = u13.getLastSegment(v255.Name)
+            u64 = u13.GetHouseInterior()
+
+            if string.find(u63, 'f-') then
+                _Scaninfonone:Set('Scan info: successful', 'circle-check', nil, false)
+            else
+                Notification('something went wrong with the scanning')
+                _Scaninfonone:Set('Scan info: failed', 'circle-x', nil, false)
+
+                u63 = ''
+                u64 = ''
+            end
+
+            return
+        end
+    end
+
+    _Scaninfonone:Set('Scan info: failed', 'circle-x', nil, false)
+    Notification('cash register was not found')
+end
+function FarmWithRegisterFunc()
+    task.spawn(function()
+        if CheckIfOtherTransfer('TransferBucksWithCashRegister') then
+            wait(0.2)
+            u207:Set(false)
+
+            u59.TransferBucksWithCashRegister = false
+        else
+            while u59.TransferBucksWithCashRegister do
+                task.wait()
+
+                if u63 == '' or u64 == '' then
+                    wait(0.2)
+                    u207:Set(false)
+
+                    u59.TransferBucksWithCashRegister = false
+
+                    Notification('Please scan for a cash register first!')
+                else
+                    for _ = 1, 3 do
+                        task.wait()
+
+                        if u59.TransferBucksWithCashRegister then
+                            local v256 = {
+                                u64,
+                                u63,
+                                'UseBlock',
+                                u65,
+                                game:GetService('Players').LocalPlayer.Character,
+                            }
+
+                            u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v256)
+                            task.wait(1)
+                        end
+                    end
+
+                    local v257 = 0
+
+                    repeat
+                        task.wait(1)
+
+                        v257 = v257 + 1
+                    until v257 > 125 or not u59.TransferBucksWithCashRegister
+                end
+            end
+        end
+    end)
+end
+function PetWait(p258, p259, p260, p261, _)
+    if p258 then
+        local v262 = tick()
+
+        repeat
+            task.wait(0.5)
+        until u13.GetPlayerInterior() == p259 or (tick() - v262 >= 10 or not (u57.PetAutofarm.State or (u57.AgePotionFarm.State or u57.AutoHatchEggs.State)))
+
+        if tick() - v262 >= 10 then
+            return true
+        end
+
+        return
+    end
+
+    local v263 = tick()
+
+    while true do
+        task.wait(0.5)
+
+        local v264 = false
+        local v265 = u13.GetAilments(p260, p261, false, u22)
+
+        if not v265 then
+            return false
+        end
+        if p260 == nil then
+            if p261 ~= nil then
+                local v266, v267, v268 = pairs(v265.SecondPet)
+
+                while true do
+                    local v269
+
+                    v268, v269 = v266(v267, v268)
+
+                    if v268 == nil then
+                        break
+                    end
+                    if v268 == p259 then
+                        v264 = true
+
+                        break
+                    end
+                end
+            end
+        else
+            local v270, v271, v272 = pairs(v265.FirstPet)
+
+            while true do
+                local v273
+
+                v272, v273 = v270(v271, v272)
+
+                if v272 == nil then
+                    break
+                end
+                if v272 == p259 then
+                    v264 = true
+
+                    break
+                end
+            end
+        end
+        if not v264 or (tick() - v263 >= 60 or not (u57.PetAutofarm.State or (u57.AgePotionFarm.State or u57.AutoHatchEggs.State))) then
+            return true
+        end
+    end
+end
+function BabyWait(p274, p275, _)
+    if p274 then
+        local v276 = tick()
+
+        repeat
+            task.wait(0.5)
+        until u13.GetPlayerInterior() == p275 or (tick() - v276 >= 10 or not u61)
+
+        if tick() - v276 >= 10 then
+            return true
+        end
+
+        return
+    end
+
+    local v277 = tick()
+
+    while true do
+        local v278
+
+        if true then
+            task.wait(0.5)
+
+            v278 = false
+
+            local v279 = u13.GetAilments(nil, nil, true, u22)
+
+            if v279 then
+            end
+        else
+            local v280, v281, v282 = pairs(v279.Baby)
+
+            while true do
+                local v283
+
+                v282, v283 = v280(v281, v282)
+
+                if v282 == nil then
+                    break
+                end
+                if v282 == p275 then
+                    v278 = true
+                end
+            end
+        end
+        if not v278 or (tick() - v277 >= 60 or not u61) then
+            return true
+        end
+    end
+end
+
+local u306 = {
+    sleepy = function()
+        u13.GoToMainMap()
+        u13.GoToHome()
+
+        local u284 = false
+
+        task.spawn(function()
+            BabyWait(false, 'sleepy', 1)
+
+            u284 = true
+        end)
+        task.spawn(function()
+            if not (u13.GetFurniture('BasicCrib') or u284) then
+                local v285 = {
+                    {
+                        {
+                            properties = {
+                                cframe = CFrame.new(),
+                            },
+                            kind = 'basiccrib',
+                        },
+                    },
+                }
+
+                u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v285)
+                u13.GoToMainMap()
+                u13.GoToHome()
+            end
+
+            task.wait(0.5)
+
+            if game:GetService('Players').LocalPlayer.Character and (_LocalPlayer.Character:FindFirstChild('HumanoidRootPart') and not u284) then
+                local v286 = {
+                    game:GetService('Players').LocalPlayer,
+                    u13.GetFurniture('BasicCrib'),
+                    'UseBlock',
+                    {
+                        cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                    },
+                    game:GetService('Players').LocalPlayer.Character,
+                }
+
+                u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v286)
+            end
+        end)
+
+        repeat
+            task.wait(0.1)
+        until u284
+
+        u13.RunRouterClient(true, 'AdoptAPI/ExitSeatStates', nil)
+    end,
+    dirty = function()
+        u13.GoToMainMap()
+        u13.GoToHome()
+
+        local u287 = false
+
+        task.spawn(function()
+            BabyWait(false, 'dirty', 1)
+
+            u287 = true
+        end)
+        task.spawn(function()
+            if not (u13.GetFurniture('StylishShower') or u287) then
+                local v288 = {
+                    {
+                        {
+                            properties = {
+                                cframe = CFrame.new(),
+                            },
+                            kind = 'stylishshower',
+                        },
+                    },
+                }
+
+                u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v288)
+                u13.GoToMainMap()
+                u13.GoToHome()
+            end
+
+            task.wait(0.5)
+
+            if game:GetService('Players').LocalPlayer.Character and (_LocalPlayer.Character:FindFirstChild('HumanoidRootPart') and not u287) then
+                local v289 = {
+                    game:GetService('Players').LocalPlayer,
+                    u13.GetFurniture('StylishShower'),
+                    'UseBlock',
+                    {
+                        cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                    },
+                    game:GetService('Players').LocalPlayer.Character,
+                }
+
+                u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v289)
+            end
+        end)
+
+        repeat
+            task.wait(0.1)
+        until u287
+
+        u13.RunRouterClient(true, 'AdoptAPI/ExitSeatStates', nil)
+    end,
+    thirsty = function()
+        local v290 = {
+            'food',
+            'water',
+            {buy_count = 1},
+        }
+
+        u13.RunRouterClient(false, 'ShopAPI/BuyItem', v290)
+
+        local v291, v292, v293 = pairs(u13.GetPlayersInventory().food)
+        local v294 = nil
+
+        while true do
+            local v295
+
+            v293, v295 = v291(v292, v293)
+
+            if v293 == nil then
+                break
+            end
+
+            task.wait()
+
+            if v295.id == 'water' then
+                v294 = v293
+            end
+        end
+
+        task.wait(0.5)
+
+        if v294 then
+            local v296 = {
+                v294,
+                {
+                    equip_as_last = false,
+                    use_sound_delay = true,
+                },
+            }
+
+            u13.RunRouterClient(false, 'ToolAPI/Equip', v296)
+            task.wait(0.5)
+
+            for _ = 1, 8 do
+                u13.RunRouterClient(true, 'ToolAPI/ServerUseTool', {
+                    v294,
+                    'END',
+                })
+                task.wait(0.3)
+            end
+        end
+    end,
+    hungry = function()
+        local v297 = {
+            'food',
+            'teachers_apple',
+            {buy_count = 1},
+        }
+
+        u13.RunRouterClient(false, 'ShopAPI/BuyItem', v297)
+
+        local v298, v299, v300 = pairs(u13.GetPlayersInventory().food)
+        local v301 = nil
+
+        while true do
+            local v302
+
+            v300, v302 = v298(v299, v300)
+
+            if v300 == nil then
+                break
+            end
+
+            task.wait()
+
+            if v302.id == 'teachers_apple' then
+                v301 = v300
+            end
+        end
+
+        task.wait(0.5)
+
+        if v301 then
+            local v303 = {
+                v301,
+                {
+                    equip_as_last = false,
+                    use_sound_delay = true,
+                },
+            }
+
+            u13.RunRouterClient(false, 'ToolAPI/Equip', v303)
+            task.wait(0.5)
+
+            for _ = 1, 3 do
+                u13.RunRouterClient(true, 'ToolAPI/ServerUseTool', {
+                    v301,
+                    'END',
+                })
+                task.wait(0.3)
+            end
+        end
+    end,
+    sick = function()
+        u13.GoToStore('Hospital')
+
+        local u304 = false
+
+        task.spawn(function()
+            BabyWait(false, 'sick', 1)
+
+            u304 = true
+        end)
+        task.spawn(function()
+            while not u304 do
+                task.wait(1)
+
+                local v305 = {
+                    u13.GetFurniture('Doctor'),
+                    'UseBlock',
+                    'Yes',
+                    game:GetService('Players').LocalPlayer.Character,
+                }
+
+                u13.RunRouterClient(false, 'HousingAPI/ActivateInteriorFurniture', v305)
+            end
+        end)
+
+        repeat
+            task.wait(0.1)
+        until u304
+    end,
+    salon = function()
+        u13.GoToStore('Salon')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        BabyWait(false, 'salon', 1)
+    end,
+    bored = function()
+        u13.GoToMainMap()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-416.258881, 35.9008026, -1755.65979)
+
+        BabyWait(false, 'bored', 1)
+    end,
+    camping = function()
+        u13.GoToMainMap()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Interiors:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-13.1087923, 35.8056011, -1051.61743)
+
+        BabyWait(false, 'camping', 1)
+    end,
+    beach_party = function()
+        u13.GoToMainMap()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-543.437134, 35.4161434, -1479.17554)
+
+        BabyWait(false, 'beach_party', 1)
+    end,
+    moon = function(_, _)
+        u13.GoToStore('MoonInterior')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        BabyWait(false, 'moon', 1)
+    end,
+    pizza_party = function()
+        u13.GoToStore('PizzaShop')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        BabyWait(false, 'pizza_party', 1)
+    end,
+    school = function()
+        u13.GoToStore('School')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        BabyWait(false, 'school', 1)
+    end,
+}
+local u382 = {
+    sleepy = function(p307, p308)
+        u13.GoToMainMap()
+        u13.GoToHome()
+        UpdatePlayerPets()
+
+        local u309 = false
+
+        task.spawn(function()
+            PetWait(false, 'sleepy', p307, p308, 1)
+
+            u309 = true
+        end)
+
+        if not (u13.GetFurniture('BasicCrib') or u309) then
+            local v310 = {
+                {
+                    {
+                        properties = {
+                            cframe = CFrame.new(),
+                        },
+                        kind = 'basiccrib',
+                    },
+                },
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v310)
+            u13.GoToMainMap()
+            u13.GoToHome()
+        end
+
+        task.wait(0.5)
+
+        if u13.GetCurrentPet(p307 or p308) and (u13.GetCurrentPet(p307 or p308).base and not u309) then
+            local v311 = {
+                game:GetService('Players').LocalPlayer,
+                u13.GetFurniture('BasicCrib'),
+                'UseBlock',
+                {
+                    cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                },
+                u13.GetCurrentPet(p307 or p308).base.pet_model.Parent,
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v311)
+        end
+
+        repeat
+            task.wait()
+        until u309
+    end,
+    dirty = function(p312, p313)
+        u13.GoToMainMap()
+        u13.GoToHome()
+        UpdatePlayerPets()
+
+        local u314 = false
+
+        task.spawn(function()
+            PetWait(false, 'dirty', p312, p313, 1)
+
+            u314 = true
+        end)
+
+        if not (u13.GetFurniture('StylishShower') or u314) then
+            local v315 = {
+                {
+                    {
+                        properties = {
+                            cframe = CFrame.new(),
+                        },
+                        kind = 'stylishshower',
+                    },
+                },
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v315)
+            u13.GoToMainMap()
+            u13.GoToHome()
+        end
+
+        task.wait(0.5)
+
+        if u13.GetCurrentPet(p312 or p313) and (u13.GetCurrentPet(p312 or p313).base and (u13.GetCurrentPet(p312 or p313).base.pet_model and not u314)) then
+            local v316 = {
+                game:GetService('Players').LocalPlayer,
+                u13.GetFurniture('StylishShower'),
+                'UseBlock',
+                {
+                    cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                },
+                u13.GetCurrentPet(p312 or p313).base.pet_model.Parent,
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v316)
+        end
+
+        repeat
+            task.wait()
+        until u314
+    end,
+    thirsty = function(p317, p318)
+        u13.GoToMainMap()
+        u13.GoToHome()
+        UpdatePlayerPets()
+
+        local u319 = false
+
+        task.spawn(function()
+            PetWait(false, 'thirsty', p317, p318, 1)
+
+            u319 = true
+        end)
+
+        if not (u13.GetFurniture('AilmentsRefresh2024CheapWaterBowl') or u319) then
+            local v320 = {
+                {
+                    {
+                        properties = {
+                            cframe = CFrame.new(),
+                        },
+                        kind = 'ailments_refresh_2024_cheap_water_bowl',
+                    },
+                },
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v320)
+            u13.GoToMainMap()
+            u13.GoToHome()
+        end
+
+        task.wait(0.5)
+
+        if u13.GetCurrentPet(p317 or p318) and (u13.GetCurrentPet(p317 or p318).base and not u319) then
+            local v321 = {
+                game:GetService('Players').LocalPlayer,
+                u13.GetFurniture('AilmentsRefresh2024CheapWaterBowl'),
+                'UseBlock',
+                {
+                    cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                },
+                u13.GetCurrentPet(p317 or p318).base.pet_model.Parent,
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v321)
+        end
+
+        repeat
+            task.wait()
+        until u319
+    end,
+    hungry = function(p322, p323)
+        u13.GoToMainMap()
+        u13.GoToHome()
+        UpdatePlayerPets()
+
+        local u324 = false
+
+        task.spawn(function()
+            PetWait(false, 'hungry', p322, p323, 1)
+
+            u324 = true
+        end)
+
+        if not (u13.GetFurniture('AilmentsRefresh2024CheapFoodBowl') or u324) then
+            local v325 = {
+                {
+                    {
+                        properties = {
+                            cframe = CFrame.new(),
+                        },
+                        kind = 'ailments_refresh_2024_cheap_food_bowl',
+                    },
+                },
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v325)
+            u13.GoToMainMap()
+            u13.GoToHome()
+        end
+
+        task.wait(0.5)
+
+        if u13.GetCurrentPet(p322 or p323) and (u13.GetCurrentPet(p322 or p323).base and not u324) then
+            local v326 = {
+                game:GetService('Players').LocalPlayer,
+                u13.GetFurniture('AilmentsRefresh2024CheapFoodBowl'),
+                'UseBlock',
+                {
+                    cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                },
+                u13.GetCurrentPet(p322 or p323).base.pet_model.Parent,
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v326)
+        end
+
+        repeat
+            task.wait()
+        until u324
+    end,
+    toilet = function(p327, p328)
+        u13.GoToMainMap()
+        u13.GoToHome()
+        UpdatePlayerPets()
+
+        local u329 = false
+
+        task.spawn(function()
+            PetWait(false, 'toilet', p327, p328, 1)
+
+            u329 = true
+        end)
+
+        if not (u13.GetFurniture('Toilet') or u329) then
+            local v330 = {
+                {
+                    {
+                        properties = {
+                            cframe = CFrame.new(),
+                        },
+                        kind = 'toilet',
+                    },
+                },
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/BuyFurnitures', v330)
+            u13.GoToMainMap()
+            u13.GoToHome()
+        end
+
+        task.wait(0.5)
+
+        if u13.GetCurrentPet(p327 or p328) and (u13.GetCurrentPet(p327 or p328).base and not u329) then
+            local v331 = {
+                game:GetService('Players').LocalPlayer,
+                u13.GetFurniture('Toilet'),
+                'Seat1',
+                {
+                    cframe = _LocalPlayer.Character.HumanoidRootPart.CFrame,
+                },
+                u13.GetCurrentPet(p327 or p328).base.pet_model.Parent,
+            }
+
+            u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v331)
+        end
+
+        repeat
+            task.wait()
+        until u329
+    end,
+    sick = function(p332, p333)
+        u13.GoToStore('Hospital')
+
+        local u334 = false
+
+        task.spawn(function()
+            PetWait(false, 'sick', p332, p333, 1)
+
+            u334 = true
+        end)
+        task.spawn(function()
+            while not u334 do
+                task.wait(1)
+
+                local v335 = {
+                    u13.GetFurniture('Doctor'),
+                    'UseBlock',
+                    'Yes',
+                    game:GetService('Players').LocalPlayer.Character,
+                }
+
+                u13.RunRouterClient(false, 'HousingAPI/ActivateInteriorFurniture', v335)
+            end
+        end)
+
+        repeat
+            task.wait(0.1)
+        until u334
+    end,
+    play = function(_, _)
+        u13.GoToNeighborhood()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        UpdatePlayerPets()
+
+        local v336, v337, v338 = pairs(u13.GetPlayersInventory().toys)
+        local v339 = nil
+
+        while true do
+            local v340
+
+            v338, v340 = v336(v337, v338)
+
+            if v338 == nil then
+                break
+            end
+
+            task.wait()
+
+            if v340.id == 'squeaky_bone_default' then
+                v339 = v338
+            end
+        end
+
+        task.wait(0.5)
+
+        if v339 then
+            task.wait(0.5)
+
+            for _ = 1, 3 do
+                local v341 = {
+                    v339,
+                    {
+                        equip_as_last = false,
+                        use_sound_delay = true,
+                    },
+                }
+
+                u13.RunRouterClient(false, 'ToolAPI/Equip', v341)
+                task.wait(0.5)
+
+                local v342 = {
+                    '__Enum_PetObjectCreatorType_1',
+                    {
+                        reaction_name = 'ThrowToyReaction',
+                        unique_id = v339,
+                    },
+                }
+
+                u13.RunRouterClient(false, 'PetObjectAPI/CreatePetObject', v342)
+                task.wait(5)
+            end
+
+            task.wait(0.1)
+            u13.RunRouterClient(false, 'ToolAPI/Unequip', {v339})
+        end
+    end,
+    ride = function(p343, p344)
+        u13.GoToNeighborhood()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        UpdatePlayerPets()
+
+        local v345, v346, v347 = pairs(u13.GetPlayersInventory().strollers)
+        local v348 = nil
+
+        while true do
+            local v349
+
+            v347, v349 = v345(v346, v347)
+
+            if v347 == nil then
+                break
+            end
+
+            task.wait()
+
+            if v349.id == 'stroller-default' then
+                v348 = v347
+            end
+        end
+
+        task.wait(0.5)
+
+        if v348 then
+            u13.RunRouterClient(false, 'ToolAPI/Equip', {
+                v348,
+                {
+                    equip_as_last = false,
+                    use_sound_delay = true,
+                },
+            })
+            task.wait(0.5)
+
+            if game:GetService('Players').LocalPlayer.Character:FindFirstChild('StrollerTool') then
+                if u13.GetCurrentPet(p343 or p344) and u13.GetCurrentPet(p343 or p344).base then
+                    local v350 = {
+                        game:GetService('Players'):WaitForChild(_LocalPlayer.Name),
+                        u13.GetCurrentPet(p343 or p344).base.pet_model.Parent,
+                        game:GetService('Players').LocalPlayer.Character.StrollerTool.ModelHandle.TouchToSits.TouchToSit,
+                    }
+
+                    u13.RunRouterClient(false, 'AdoptAPI/UseStroller', v350)
+                    print('Doing')
+                end
+
+                print('lol')
+                u119(true)
+                PetWait(false, 'ride', p343, p344, 1)
+                u119(false)
+                u13.RunRouterClient(false, 'ToolAPI/Unequip', {v348})
+            end
+        else
+            return
+        end
+    end,
+    salon = function(p351, p352)
+        u13.GoToStore('Salon')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        PetWait(false, 'salon', p351, p352, 1)
+    end,
+    bored = function(p353, p354)
+        u13.GoToMainMap()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-416.258881, 35.9008026, -1755.65979)
+
+        PetWait(false, 'bored', p353, p354, 1)
+    end,
+    camping = function(p355, p356)
+        u13.GoToMainMap()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Interiors:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-13.1087923, 35.8056011, -1051.61743)
+
+        PetWait(false, 'camping', p355, p356, 1)
+    end,
+    beach_party = function(p357, p358)
+        u13.GoToMainMap()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-543.437134, 35.4161434, -1479.17554)
+
+        PetWait(false, 'beach_party', p357, p358, 1)
+    end,
+    pizza_party = function(p359, p360)
+        u13.GoToStore('PizzaShop')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        PetWait(false, 'pizza_party', p359, p360, 1)
+    end,
+    school = function(p361, p362)
+        u13.GoToStore('School')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        PetWait(false, 'school', p361, p362, 1)
+    end,
+    moon = function(p363, p364)
+        u13.GoToStore('MoonInterior')
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        PetWait(false, 'moon', p363, p364, 1)
+    end,
+    walk = function(p365, p366)
+        u13.GoToNeighborhood()
+
+        _LocalPlayer.Character.HumanoidRootPart.CFrame = _LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
+
+        UpdatePlayerPets()
+        u119(true)
+        PetWait(false, 'walk', p365, p366, 1)
+        u119(false)
+    end,
+    mystery = function(p367, p368)
+        UpdatePlayerPets()
+
+        local v369 = {
+            is_pet = true,
+            pet_unique = p367 or p368,
+            player = game.Players.LocalPlayer,
+            pet_id = u13.GetPlayersPetConfigs(p367 or p368).petKind,
+        }
+        local v370 = u9()
+
+        u10(2)
+
+        local v371 = AilmentsClientRe.get_ailments_for_pet(v369)
+        local v372 = v371.mystery.action.options.get_ailment_slots(v371.mystery.action.options.random_seed, AilmentsClientRe.get_ailments_for_pet(v369), v369)
+        local v373, v374, v375 = pairs(v372)
+        local v376 = ''
+
+        while true do
+            local v377
+
+            v375, v377 = v373(v374, v375)
+
+            if v375 == nil then
+                v377 = v376
+
+                break
+            end
+
+            task.wait()
+
+            if v375 == 1 then
+                break
+            end
+        end
+
+        u10(v370)
+        u13.RunRouterClient(true, 'AilmentsAPI/ChooseMysteryAilment', {
+            p367 or p368,
+            'mystery',
+            1,
+            v377,
+        })
+    end,
+    pet_me = function(p378, p379)
+        UpdatePlayerPets()
+
+        for _ = 1, 5 do
+            task.wait(1)
+
+            if not (u13.GetCurrentPet(p378 or p379) and (u13.GetCurrentPet(p378 or p379).base and u13.GetCurrentPet(p378 or p379).base.pet_model)) then
                 return
+            end
+
+            local v380 = {
+                u13.GetCurrentPet(p378 or p379).base.pet_model.Parent,
+            }
+
+            u13.RunRouterClient(true, 'AdoptAPI/FocusPet', v380)
+
+            if u13.GetCurrentPet(p378 or p379) and u13.GetCurrentPet(p378 or p379).base then
+                local v381 = {
+                    u13.GetCurrentPet(p378 or p379).base.pet_model.Parent,
+                    {FocusPet = true},
+                }
+
+                u13.RunRouterClient(true, 'PetAPI/ReplicateActivePerformances', v381)
+            end
+
+            u13.RunRouterClient(true, 'AilmentsAPI/ProgressPetMeAilment', {
+                p378 or p379,
+            })
+        end
+
+        PetWait(false, 'pet_me', p378, p379, 1)
+    end,
+}
+
+local function u403()
+    SetPlatformForPlayer(true)
+    u13.PrintDebugMessages('PetFarm loading...', u39)
+
+    if not u57.PetAutofarm.State then
+        SetPlatformForPlayer(false)
+
+        u57.PetAutofarm.Running = false
+
+        return
+    end
+
+    local _petKind = u13.GetPlayersPetConfigs(u25).petKind
+    local _petKind2 = u13.GetPlayersPetConfigs(u26).petKind
+
+    if u13.GetPetConfigs(_petKind).isEgg or u13.GetPetConfigs(_petKind2).isEgg then
+        task.wait(0.2)
+        Notification('You cant use eggs')
+        PetAutofarmToggle:Set(false)
+
+        u57.PetAutofarm.Running = false
+
+        return
+    end
+    if u25 ~= 'None' then
+        local v385, v386, v387 = pairs(u13.GetAilments(u25, nil, false, u22).FirstPet)
+
+        while true do
+            local v388, _ = v385(v386, v387)
+
+            if v388 == nil then
+                break
+            end
+
+            v387 = v388
+
+            task.wait()
+
+            if u57.PetAutofarm.State then
+                if u382[v388] then
+                    u13.PrintDebugMessages('Doing task: ' .. v388 .. ' (FirstPet, PetFarm)', u39)
+                    u382[v388](u25, nil)
+                    u13.PrintDebugMessages('Task: ' .. v388 .. ' done (FirstPet, PetFarm)', u39)
+                end
+                if true then
+                    if (u13.GetPlayersPetConfigs(u25).petAge and u58.SwitchOutPets or u58.FarmAllPets) and u13.GetPlayersPetConfigs(u25).petAge >= 6 then
+                        InfoNotification('Changing pet, if possible... please wait')
+
+                        if u58.SwitchOutPets then
+                            local v389 = u13.GetSameKind(u25, u26, _petKind)
+
+                            if v389 == nil then
+                                u25 = 'None'
+
+                                UpdatePlayerPets()
+                                Notification('No more same pets available')
+
+                                break
+                            end
+
+                            u25 = v389
+
+                            UpdatePlayerPets()
+                            InfoNotification('Successful pet changed')
+
+                            if GetPetCountId(v389) then
+                                FirstPetDropdown:Set({
+                                    u23[GetPetCountId(v389)],
+                                })
+                            end
+                        elseif u58.FarmAllPets then
+                            local v390 = u13.GetRandomKind(u25, u26, _petKind)
+
+                            if v390 == nil then
+                                u25 = 'None'
+
+                                UpdatePlayerPets()
+                                Notification('No more pets available')
+
+                                break
+                            end
+
+                            u25 = v390
+
+                            UpdatePlayerPets()
+                            InfoNotification('Successful pet changed')
+
+                            if GetPetCountId(v390) then
+                                FirstPetDropdown:Set({
+                                    u23[GetPetCountId(v390)],
+                                })
+                            end
+                        end
+                    end
+                else
+                    warn('Something went wrong while doing ' .. v388 .. ': err (1)')
+                    task.wait(2)
+                end
+            end
+        end
+    end
+    if u26 ~= 'None' then
+        local v391, v392, v393 = pairs(u13.GetAilments(nil, u26, false, u22).SecondPet)
+
+        while true do
+            local v394, _ = v391(v392, v393)
+
+            if v394 == nil then
+                break
+            end
+
+            v393 = v394
+
+            task.wait()
+
+            if u57.PetAutofarm.State then
+                if u382[v394] then
+                    u13.PrintDebugMessages('Doing task: ' .. v394 .. ' (SecondPet, PetFarm)', u39)
+                    u382[v394](nil, u26)
+                    u13.PrintDebugMessages('Task: ' .. v394 .. ' done (SecondPet, PetFarm)', u39)
+                end
+                if true then
+                    if (u13.GetPlayersPetConfigs(u26).petAge and u58.SwitchOutPets or u58.FarmAllPets) and u13.GetPlayersPetConfigs(u26).petAge >= 6 then
+                        InfoNotification('Changing pet, if possible... please wait')
+
+                        if u58.SwitchOutPets then
+                            local v395 = u13.GetSameKind(u25, u26, _petKind2)
+
+                            if v395 == nil then
+                                u26 = 'None'
+
+                                UpdatePlayerPets()
+                                Notification('No more same pets available')
+
+                                break
+                            end
+
+                            u26 = v395
+
+                            UpdatePlayerPets()
+                            InfoNotification('Successful pet changed')
+
+                            if GetPetCountId(v395) then
+                                SecondPetDropdown:Set({
+                                    u23[GetPetCountId(v395)],
+                                })
+                            end
+                        elseif u58.FarmAllPets then
+                            local v396 = u13.GetRandomKind(u26, u25, _petKind2)
+
+                            if v396 == nil then
+                                u26 = 'None'
+
+                                UpdatePlayerPets()
+                                Notification('No more pets available')
+
+                                break
+                            end
+
+                            u26 = v396
+
+                            UpdatePlayerPets()
+                            InfoNotification('Successful pet changed')
+
+                            if GetPetCountId(v396) then
+                                SecondPetDropdown:Set({
+                                    u23[GetPetCountId(v396)],
+                                })
+                            end
+                        end
+                    end
+                else
+                    warn('Something went wrong while doing ' .. v394 .. ': err (1)')
+                    task.wait(2)
+                end
+            end
+        end
+    end
+    if u61 then
+        local v397, v398, v399 = pairs(u13.GetAilments(nil, nil, true, u22).Baby)
+
+        while true do
+            local u400, _ = v397(v398, v399)
+
+            if u400 == nil then
+                break
+            end
+
+            v399 = u400
+
+            task.wait()
+
+            if u57.PetAutofarm.State then
+                local v401, v402 = pcall(function()
+                    if u306[u400] then
+                        u13.PrintDebugMessages('Doing task: ' .. u400 .. ' (Baby, PetFarm)', u39)
+                        u306[u400]()
+                        u13.PrintDebugMessages('Task: ' .. u400 .. ' done (Baby, PetFarm)', u39)
+                    end
+                end)
+
+                if not v401 then
+                    warn('Something went wrong while doing ' .. u400 .. ': ' .. v402 .. ' (Baby)')
+                    task.wait(2)
+                end
+            end
+        end
+    end
+
+    u57.PetAutofarm.Running = false
+
+    task.wait(2)
+end
+local function u426()
+    local v424, v425 = pcall(function()
+        SetPlatformForPlayer(true)
+        u13.PrintDebugMessages('AgePotionFarm loading...', u39)
+
+        if u57.AgePotionFarm.State then
+            local v404 = u13.GetPlayersPetConfigs(u25)
+            local v405 = u13.GetPlayersPetConfigs(u26)
+
+            if u13.GetPetConfigs(v404.petKind).isEgg or u13.GetPetConfigs(v405.petKind).isEgg then
+                task.wait(0.2)
+                Notification('You cant use eggs')
+                PetAutofarmToggle:Set(false)
+
+                u57.PetAutofarm.Running = false
+
+                return
+            elseif u25 == 'None' or (not v404.petAge or v404.petAge >= 6) then
+                if u26 == 'None' or (not v405.petAge or v405.petAge >= 6) then
+                    if u25 ~= 'None' then
+                        local v406, v407, v408 = pairs(u13.GetAilments(u25, nil, false, u22).FirstPet)
+
+                        while true do
+                            local u409, _ = v406(v407, v408)
+
+                            if u409 == nil then
+                                break
+                            end
+
+                            v408 = u409
+
+                            task.wait()
+
+                            if u57.AgePotionFarm.State then
+                                local v410, v411 = pcall(function()
+                                    if u382[u409] then
+                                        u13.PrintDebugMessages('Doing task: ' .. u409 .. ' (FirstPet, AutoAgePotion)', u39)
+                                        u382[u409](u25, nil)
+                                        u13.PrintDebugMessages('Task: ' .. u409 .. ' done (FirstPet, AutoAgePotion)', u39)
+                                    end
+                                end)
+
+                                if not v410 then
+                                    warn('Something went wrong while doing ' .. u409 .. ': ' .. v411 .. ' (1)')
+                                    task.wait(2)
+                                end
+                            end
+                        end
+                    end
+                    if u26 ~= 'None' then
+                        local v412, v413, v414 = pairs(u13.GetAilments(nil, u26, false, u22).SecondPet)
+
+                        while true do
+                            local u415, _ = v412(v413, v414)
+
+                            if u415 == nil then
+                                break
+                            end
+
+                            v414 = u415
+
+                            task.wait()
+
+                            if u57.AgePotionFarm.State then
+                                local v416, v417 = pcall(function()
+                                    if u382[u415] then
+                                        u13.PrintDebugMessages('Doing task: ' .. u415 .. ' (SecondPet, AutoAgePotion)', u39)
+                                        u382[u415](nil, u26)
+                                        u13.PrintDebugMessages('Task: ' .. u415 .. ' done (SecondPet, AutoAgePotion)', u39)
+                                    end
+                                end)
+
+                                if not v416 then
+                                    warn('Something went wrong while doing ' .. u415 .. ': ' .. v417 .. ' (2)')
+                                    task.wait(2)
+                                end
+                            end
+                        end
+                    end
+                    if u61 then
+                        local v418, v419, v420 = pairs(u13.GetAilments(nil, nil, true, u22).Baby)
+
+                        while true do
+                            local u421, _ = v418(v419, v420)
+
+                            if u421 == nil then
+                                break
+                            end
+
+                            v420 = u421
+
+                            task.wait()
+
+                            if u57.AgePotionFarm.State then
+                                local v422, v423 = pcall(function()
+                                    if u306[u421] then
+                                        u13.PrintDebugMessages('Doing task: ' .. u421 .. ' (Baby, AutoAgePotion)', u39)
+                                        u306[u421]()
+                                        u13.PrintDebugMessages('Task: ' .. u421 .. ' done (Baby, AutoAgePotion)', u39)
+                                    end
+                                end)
+
+                                if not v422 then
+                                    warn('Something went wrong while doing ' .. u421 .. ': ' .. v423 .. ' (Baby)')
+                                    task.wait(2)
+                                end
+                            end
+                        end
+                    end
+
+                    u57.AgePotionFarm.Running = false
+
+                    task.wait(2)
+                else
+                    task.wait(0.2)
+                    AutofarmAgePotionsToggle:Set(false)
+
+                    u57.AgePotionFarm.Running = false
+
+                    Notification('Second selected Pet must be fullgrown')
+                end
+            else
+                task.wait(0.2)
+                AutofarmAgePotionsToggle:Set(false)
+
+                u57.AgePotionFarm.Running = false
+
+                Notification('Main selected Pet must be fullgrown')
+
+                return
+            end
+        else
+            SetPlatformForPlayer(false)
+
+            u57.AgePotionFarm.Running = false
+
+            return
+        end
+    end)
+
+    if not v424 then
+        warn('Something went wrong: ' .. v425)
+
+        u57.AgePotionFarm.Running = false
+    end
+end
+local function u457()
+    local v455, v456 = pcall(function()
+        SetPlatformForPlayer(true)
+        u13.PrintDebugMessages('Autohatch loading...', u39)
+
+        if not u57.AutoHatchEggs.State then
+            SetPlatformForPlayer(false)
+
+            u57.AutoHatchEggs.Running = false
+
+            return
+        end
+
+        local _petKind3 = u13.GetPlayersPetConfigs(u25).petKind
+        local _petKind4 = u13.GetPlayersPetConfigs(u26).petKind
+
+        if not (u13.GetPetConfigs(_petKind3).isEgg or u13.GetPetConfigs(_petKind4).isEgg) then
+            task.wait(0.2)
+            Notification('You must use eggs')
+            AutoHatchEggsToggle:Set(false)
+
+            u57.AutoHatchEggs.Running = false
+
+            return
+        end
+        if u25 ~= 'None' then
+            local v429, v430, v431 = pairs(u13.GetAilments(u25, nil, false, u22).FirstPet)
+
+            while true do
+                local u432, _ = v429(v430, v431)
+
+                if u432 == nil then
+                    break
+                end
+
+                v431 = u432
+
+                task.wait()
+
+                if u57.AutoHatchEggs.State then
+                    local v433, v434 = pcall(function()
+                        if u382[u432] then
+                            u13.PrintDebugMessages('Doing task: ' .. u432 .. ' (FirstPet, Autohatch)', u39)
+                            u382[u432](u25, nil)
+                            u13.PrintDebugMessages('Task: ' .. u432 .. ' done (FirstPet, Autohatch)', u39)
+                        end
+                    end)
+
+                    if v433 then
+                        task.wait(2)
+
+                        if u13.IsEggNotThere(u25) then
+                            InfoNotification('Changing egg, if possible... please wait')
+
+                            if u58.SwitchOutEggs then
+                                local v435 = u13.GetSameKind(u25, u26, _petKind3)
+
+                                if v435 == nil then
+                                    u25 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more same eggs available')
+
+                                    break
+                                end
+
+                                u25 = v435
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v435) then
+                                    FirstPetDropdown:Set({
+                                        u23[GetPetCountId(v435)],
+                                    })
+                                end
+                            elseif u58.HatchAllEggs then
+                                local v436 = u13.GetRandomKind(u25, u26, _petKind3)
+
+                                if v436 == nil then
+                                    u25 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more eggs available')
+
+                                    break
+                                end
+
+                                u25 = v436
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v436) then
+                                    FirstPetDropdown:Set({
+                                        u23[GetPetCountId(v436)],
+                                    })
+                                end
+                            end
+                        end
+                        if u13.IsEggNotThere(u26) then
+                            InfoNotification('Changing egg, if possible... please wait')
+
+                            if u58.SwitchOutEggs then
+                                local v437 = u13.GetSameKind(u25, u26, _petKind4)
+
+                                if v437 == nil then
+                                    u26 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more same eggs available')
+
+                                    break
+                                end
+
+                                u26 = v437
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v437) then
+                                    SecondPetDropdown:Set({
+                                        u23[GetPetCountId(v437)],
+                                    })
+                                end
+                            elseif u58.HatchAllEggs then
+                                local v438 = u13.GetRandomKind(u26, u25, _petKind4)
+
+                                if v438 == nil then
+                                    u26 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more eggs available')
+
+                                    break
+                                end
+
+                                u26 = v438
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v438) then
+                                    u26:Set({
+                                        u23[GetPetCountId(v438)],
+                                    })
+                                end
+                            end
+                        end
+                    else
+                        warn('Something went wrong while doing ' .. u432 .. ': ' .. v434 .. ' (1)')
+                        task.wait(2)
+                    end
+                end
+            end
+        end
+        if u26 ~= 'None' then
+            local v439, v440, v441 = pairs(u13.GetAilments(nil, u26, false, u22).SecondPet)
+
+            while true do
+                local u442, _ = v439(v440, v441)
+
+                if u442 == nil then
+                    break
+                end
+
+                v441 = u442
+
+                task.wait()
+
+                if u57.AutoHatchEggs.State then
+                    local v443, v444 = pcall(function()
+                        if u382[u442] then
+                            u13.PrintDebugMessages('Doing task: ' .. u442 .. ' (SecondPet, Autohatch)', u39)
+                            u382[u442](nil, u26)
+                            u13.PrintDebugMessages('Task: ' .. u442 .. ' done (SecondPet, Autohatch)', u39)
+                        end
+                    end)
+
+                    if v443 then
+                        task.wait(2)
+
+                        if u13.IsEggNotThere(u25) then
+                            InfoNotification('Changing egg, if possible... please wait')
+
+                            if u58.SwitchOutEggs then
+                                local v445 = u13.GetSameKind(u25, u26, _petKind3)
+
+                                if v445 == nil then
+                                    u25 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more same eggs available')
+
+                                    break
+                                end
+
+                                u25 = v445
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v445) then
+                                    FirstPetDropdown:Set({
+                                        u23[GetPetCountId(v445)],
+                                    })
+                                end
+                            elseif u58.HatchAllEggs then
+                                local v446 = u13.GetRandomKind(u25, u26, _petKind3)
+
+                                if v446 == nil then
+                                    u25 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more eggs available')
+
+                                    break
+                                end
+
+                                u25 = v446
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v446) then
+                                    FirstPetDropdown:Set({
+                                        u23[GetPetCountId(v446)],
+                                    })
+                                end
+                            end
+                        end
+                        if u13.IsEggNotThere(u26) then
+                            InfoNotification('Changing egg, if possible... please wait')
+
+                            if u58.SwitchOutEggs then
+                                local v447 = u13.GetSameKind(u25, u26, _petKind4)
+
+                                if v447 == nil then
+                                    u26 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more same eggs available')
+
+                                    break
+                                end
+
+                                u26 = v447
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v447) then
+                                    SecondPetDropdown:Set({
+                                        u23[GetPetCountId(v447)],
+                                    })
+                                end
+                            elseif u58.HatchAllEggs then
+                                local v448 = u13.GetRandomKind(u26, u25, _petKind4)
+
+                                if v448 == nil then
+                                    u26 = 'None'
+
+                                    UpdatePlayerPets()
+                                    Notification('No more eggs available')
+
+                                    break
+                                end
+
+                                u26 = v448
+
+                                UpdatePlayerPets()
+                                InfoNotification('Successful egg changed')
+
+                                if GetPetCountId(v448) then
+                                    u26:Set({
+                                        u23[GetPetCountId(v448)],
+                                    })
+                                end
+                            end
+                        end
+                    else
+                        warn('Something went wrong while doing ' .. u442 .. ': ' .. v444 .. ' (1)')
+                        task.wait(2)
+                    end
+                end
+            end
+        end
+        if u61 then
+            local v449, v450, v451 = pairs(u13.GetAilments(nil, nil, true, u22).Baby)
+
+            while true do
+                local u452, _ = v449(v450, v451)
+
+                if u452 == nil then
+                    break
+                end
+
+                v451 = u452
+
+                task.wait()
+
+                if u57.AutoHatchEggs.State then
+                    local v453, v454 = pcall(function()
+                        if u306[u452] then
+                            u13.PrintDebugMessages('Doing task: ' .. u452 .. ' (Baby, Autohatch)', u39)
+                            u306[u452]()
+                            u13.PrintDebugMessages('Task: ' .. u452 .. ' done (Baby, Autohatch)', u39)
+                        end
+                    end)
+
+                    if not v453 then
+                        warn('Something went wrong while doing ' .. u452 .. ': ' .. v454 .. ' (Baby)')
+                        task.wait(2)
+                    end
+                end
+            end
+        end
+
+        u57.AutoHatchEggs.Running = false
+
+        task.wait(2)
+    end)
+
+    if not v455 then
+        warn('Something went wrong: ' .. v456)
+
+        u57.AutoHatchEggs.Running = false
+    end
+end
+local function u464()
+    if u27 == '' or u27 == 'None' then
+        Notification('Please select a pet')
+        GivePetAgePotions:Set(false)
+
+        u57.AutoGiveAgePotions.Running = false
+
+        return
+    else
+        local v458 = u13.GetFoodToGive(u28)
+
+        if v458 == '' then
+            Notification('No more ' .. u28)
+            GivePetAgePotions:Set(false)
+
+            u57.AutoGiveAgePotions.Running = false
+
+            return
+        else
+            local v459 = u13.GetPlayersPetConfigs(u27)
+
+            if v459.petAge and v459.petAge >= 6 then
+                if u29 then
+                    local v460 = u13.GetSameAgeKind(u27, v459.petKind)
+
+                    if v460 == nil then
+                        u27 = 'None'
+
+                        AgePotionsPetSelectDropdown:Set({
+                            'None',
+                        })
+                        Notification('No more of the same pet available')
+
+                        u57.AutoGiveAgePotions.State = false
+                    else
+                        u27 = v460
+
+                        UpdatePlayerPets2()
+                        InfoNotification('Successful pet changed')
+
+                        if GetPetCountId(v460) then
+                            AgePotionsPetSelectDropdown:Set({
+                                u23[GetPetCountId(v460)],
+                            })
+                        end
+                    end
+                else
+                    u57.AutoGiveAgePotions.State = false
+                end
+            else
+                u13.RunRouterClient(false, 'ToolAPI/Equip', {
+                    v458,
+                    {
+                        equip_as_last = false,
+                        use_sound_delay = true,
+                    },
+                })
+                task.wait(0.2)
+
+                local v461 = {
+                    '__Enum_PetObjectCreatorType_2',
+                    {
+                        pet_unique = u27,
+                        unique_id = v458,
+                    },
+                }
+
+                u13.RunRouterClient(false, 'PetObjectAPI/CreatePetObject', v461)
+                task.wait(9)
+
+                local v462 = u13.GetPlayersPetConfigs(u27)
+
+                if v462.petAge and v462.petAge >= 6 then
+                    if u29 then
+                        local v463 = u13.GetSameAgeKind(u27, v462.petKind)
+
+                        if v463 == nil then
+                            u27 = 'None'
+
+                            AgePotionsPetSelectDropdown:Set({
+                                'None',
+                            })
+                            Notification('No more of the same pet available')
+
+                            u57.AutoGiveAgePotions.State = false
+                        else
+                            u27 = v463
+
+                            UpdatePlayerPets2()
+                            InfoNotification('Successful pet changed')
+
+                            if GetPetCountId(v463) then
+                                AgePotionsPetSelectDropdown:Set({
+                                    u23[GetPetCountId(v463)],
+                                })
+                            end
+                        end
+                    else
+                        u57.AutoGiveAgePotions.State = false
+                    end
+                end
+
+                u57.AutoGiveAgePotions.Running = false
             end
         end
     end
 end
 
---Properties:
+function CheckTime()
+    local u465 = 0
+    local v471, _ = pcall(function()
+        local _Model = workspace.Interiors:FindFirstChildWhichIsA('Model')
 
-Spawner.Name = "Spawner"
-Spawner.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-Spawner.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        if _Model and u13.GetCurrentInterior() == 'MainMap' then
+            local _Text = _Model.BlossomShakedownJoinZone.Billboard.BillboardGui.TimerLabel.Text
+            local v468 = string.match(_Text, '%d%d:%d%d')
 
-Main.Name = "Main"
-Main.Parent = Spawner
-Main.AnchorPoint = Vector2.new(0.5, 0.5)
-Main.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
-Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Main.BorderSizePixel = 0
-Main.Position = UDim2.new(0.5, 0, 0.507051289, 0)
-Main.Size = UDim2.new(0, 446, 0, 260)
+            if v468 then
+                local v469, v470 = string.match(v468, '(%d%d):(%d%d)')
 
-T.Name = "T"
-T.Parent = Main
-T.AnchorPoint = Vector2.new(0.5, 0.5)
-T.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-T.BackgroundTransparency = 1.000
-T.BorderColor3 = Color3.fromRGB(0, 0, 0)
-T.BorderSizePixel = 0
-T.Position = UDim2.new(0.5, 0, 0.0884615406, 0)
-T.Size = UDim2.new(0, 406, 0, 46)
-T.Font = Enum.Font.GothamBold
-T.Text = "Vexadez Pet Spawner"
-T.TextColor3 = Color3.fromRGB(255, 255, 255)
-T.TextScaled = true
-T.TextSize = 14.000
-T.TextWrapped = true
+                u465 = tonumber(v469) * 60 + tonumber(v470)
+            end
+        end
+    end)
 
-UICorner.CornerRadius = UDim.new(0, 6)
-UICorner.Parent = Main
+    if v471 then
+        return u465
+    else
+        return false
+    end
+end
+function CheckTime2()
+    local u472 = 0
+    local v478, _ = pcall(function()
+        local _Model2 = workspace.Interiors:FindFirstChildWhichIsA('Model')
 
-NFR.Name = "NFR"
-NFR.Parent = Main
-NFR.AnchorPoint = Vector2.new(0.5, 0.5)
-NFR.BackgroundColor3 = Color3.fromRGB(6, 6, 6)
-NFR.BorderColor3 = Color3.fromRGB(0, 0, 0)
-NFR.BorderSizePixel = 0
-NFR.Position = UDim2.new(0.498878926, 0, 0.353846163, 0)
-NFR.Size = UDim2.new(0, 89, 0, 50)
-NFR.Font = Enum.Font.GothamBold
-NFR.Text = "NFR"
-NFR.TextColor3 = Color3.fromRGB(25, 255, 21)
-NFR.TextScaled = true
-NFR.TextSize = 14.000
-NFR.TextWrapped = true
-NFR.MouseButton1Click:Connect(function()
-    NFR.TextColor3 = Color3.fromRGB(25, 255, 21)
-    petType = "NFR"
-    MFR_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-    MFR.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
+        if _Model2 and u13.GetCurrentInterior() == 'MainMap' then
+            local _Text2 = _Model2.TearUpToykyoJoinZone.Billboard.BillboardGui.TimerLabel.Text
+            local v475 = string.match(_Text2, '%d%d:%d%d')
 
-UICorner_2.CornerRadius = UDim.new(0, 6)
-UICorner_2.Parent = NFR
+            if v475 then
+                local v476, v477 = string.match(v475, '(%d%d):(%d%d)')
 
-MFR.Name = "MFR"
-MFR.Parent = Main
-MFR.AnchorPoint = Vector2.new(0.5, 0.5)
-MFR.BackgroundColor3 = Color3.fromRGB(6, 6, 6)
-MFR.BorderColor3 = Color3.fromRGB(0, 0, 0)
-MFR.BorderSizePixel = 0
-MFR.Position = UDim2.new(0.797085226, 0, 0.353846163, 0)
-MFR.Size = UDim2.new(0, 89, 0, 50)
-MFR.Font = Enum.Font.GothamBold
-MFR.Text = "MFR"
-MFR.TextColor3 = Color3.fromRGB(255, 255, 255)
-MFR.TextScaled = true
-MFR.TextSize = 14.000
-MFR.TextWrapped = true
-MFR.MouseButton1Click:Connect(function()
-    MFR.TextColor3 = Color3.fromRGB(25, 255, 21)
-    petType = "MFR"
-    MFR_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-    NFR.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
+                u472 = tonumber(v476) * 60 + tonumber(v477)
+            end
+        end
+    end)
 
-UICorner_3.CornerRadius = UDim.new(0, 6)
-UICorner_3.Parent = MFR
-
-MFR_2.Name = "MFR"
-MFR_2.Parent = Main
-MFR_2.AnchorPoint = Vector2.new(0.5, 0.5)
-MFR_2.BackgroundColor3 = Color3.fromRGB(6, 6, 6)
-MFR_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-MFR_2.BorderSizePixel = 0
-MFR_2.Position = UDim2.new(0.202914804, 0, 0.353846163, 0)
-MFR_2.Size = UDim2.new(0, 89, 0, 50)
-MFR_2.Font = Enum.Font.GothamBold
-MFR_2.Text = "FR"
-MFR_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-MFR_2.TextScaled = true
-MFR_2.TextSize = 14.000
-MFR_2.TextWrapped = true
-MFR_2.MouseButton1Click:Connect(function()
-    MFR_2.TextColor3 = Color3.fromRGB(25, 255, 21)
-    petType = "FR"
-    NFR.TextColor3 = Color3.fromRGB(255, 255, 255)
-    MFR.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
-
-UICorner_4.CornerRadius = UDim.new(0, 6)
-UICorner_4.Parent = MFR_2
-
-NameBox.Name = "NameBox"
-NameBox.Parent = Main
-NameBox.AnchorPoint = Vector2.new(0.5, 0.5)
-NameBox.BackgroundColor3 = Color3.fromRGB(6, 6, 6)
-NameBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-NameBox.BorderSizePixel = 0
-NameBox.Position = UDim2.new(0.5, 0, 0.601923048, 0)
-NameBox.Size = UDim2.new(0, 354, 0, 45)
-NameBox.Font = Enum.Font.GothamBold
-NameBox.PlaceholderText = "Enter Pet Name Here"
-NameBox.Text = ""
-NameBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-NameBox.TextScaled = true
-NameBox.TextSize = 14.000
-NameBox.TextWrapped = true
-
-UICorner_5.CornerRadius = UDim.new(0, 6)
-UICorner_5.Parent = NameBox
-
-Spawn.Name = "Spawn"
-Spawn.Parent = Main
-Spawn.AnchorPoint = Vector2.new(0.5, 0.5)
-Spawn.BackgroundColor3 = Color3.fromRGB(6, 6, 6)
-Spawn.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Spawn.BorderSizePixel = 0
-Spawn.Position = UDim2.new(0.497757852, 0, 0.824999988, 0)
-Spawn.Size = UDim2.new(0, 176, 0, 41)
-Spawn.Font = Enum.Font.GothamBold
-Spawn.Text = "Spawn"
-Spawn.TextColor3 = Color3.fromRGB(255, 255, 255)
-Spawn.TextScaled = true
-Spawn.TextSize = 14.000
-Spawn.TextWrapped = true
-
-UICorner_6.CornerRadius = UDim.new(0, 6)
-UICorner_6.Parent = Spawn
-
-Spawn.MouseButton1Click:Connect(function()
-    duplicatePet(NameBox.Text)
-end)
-
-local UIS = game:GetService('UserInputService')
-local frame = Main
-local dragToggle = nil
-local dragSpeed = 0.25
-local dragStart = nil
-local startPos = nil
-
-local function updateInput(input)
-	local delta = input.Position - dragStart
-	local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
-		startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+    if v478 then
+        return u472
+    else
+        return false
+    end
 end
 
-frame.InputBegan:Connect(function(input)
-	if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
-		dragToggle = true
-		dragStart = input.Position
-		startPos = frame.Position
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragToggle = false
-			end
-		end)
-	end
+local function u491()
+    local v489, v490 = pcall(function()
+        local v479 = require(game.ReplicatedStorage.SharedModules.ContentPacks.Springfest2025.Minigames.KaijuStompMinigameClient)
+
+        if u13.GetCurrentInterior() ~= 'BlossomShakedownInterior' and u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' then
+            local v480 = _LocalPlayer.Character or _LocalPlayer.CharacterAdded:Wait()
+
+            if u13.GetCurrentInterior() ~= 'MainMap' then
+                u13.GoToMainMap()
+                v480:SetPrimaryPartCFrame(CFrame.new(111.015358, 30.8523083, -1464.83508))
+            elseif CheckTime2() == false then
+                if not v479.is_queued then
+                    v480:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                    task.wait(0.5)
+                    v480:SetPrimaryPartCFrame(CFrame.new(111.015358, 30.8523083, -1464.83508))
+                end
+            elseif v480 and CheckTime2() < 30 then
+                if not v479.is_queued then
+                    v480:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                    task.wait(0.5)
+                    v480:SetPrimaryPartCFrame(CFrame.new(111.015358, 30.8523083, -1464.83508))
+                end
+            elseif u198 then
+                v480:SetPrimaryPartCFrame(CFrame.new(84.2065735, 35.3116302, -1351.55505))
+            elseif not v479.is_queued then
+                v480:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                task.wait(0.5)
+                v480:SetPrimaryPartCFrame(CFrame.new(111.015358, 30.8523083, -1464.83508))
+            end
+        end
+        if v479.is_participating then
+            if u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' then
+                print(u13.extractName(u13.GetCurrentInterior()))
+
+                u57.AutofarmKaijuStomp.Running = false
+
+                return
+            end
+
+            local v481, v482, v483 = pairs(workspace.StaticMap:GetChildren())
+            local v484 = ''
+
+            while true do
+                local v485
+
+                v483, v485 = v481(v482, v483)
+
+                if v483 == nil then
+                    break
+                end
+
+                task.wait()
+
+                local v486 = 'tear_up_toykyo::'
+                local v487 = '_minigame_state'
+
+                if string.sub(v485.Name, 1, #v486) == v486 then
+                    v484 = v485.Name
+
+                    if string.sub(v484, -#v487) == v487 then
+                        v484 = string.sub(v484, 1, #v484 - #v487)
+                    end
+
+                    break
+                end
+
+                v484 = ''
+            end
+
+            if v484 == '' then
+                return
+            end
+
+            while u57.AutofarmKaijuStomp.State and (u13.extractName(u13.GetCurrentInterior()) == 'KaijuStompMinigame' and v479.is_participating) do
+                task.wait()
+
+                for v488 = 0, 3000 do
+                    u13.RunRouterClient(true, 'MinigameAPI/MessageServer', {
+                        v484,
+                        'building_destroyed',
+                        v488,
+                    })
+
+                    if v488 % 10 == 0 and v488 ~= 0 then
+                        task.wait()
+                    end
+                    if not u57.AutofarmKaijuStomp.State or (u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' or not v479.is_participating) then
+                        break
+                    end
+                end
+            end
+        end
+
+        u57.AutofarmKaijuStomp.Running = false
+    end)
+
+    if not v489 then
+        warn('Something went wrong: ' .. v490)
+
+        u57.AutofarmKaijuStomp.Running = false
+    end
+end
+local function u501()
+    local v499, v500 = pcall(function()
+        local v492 = require(game.ReplicatedStorage.SharedModules.ContentPacks.Springfest2025.Minigames.BlossomMinigameClient)
+
+        if u13.GetCurrentInterior() ~= 'BlossomShakedownInterior' and u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' then
+            local v493 = _LocalPlayer.Character or _LocalPlayer.CharacterAdded:Wait()
+
+            if u13.GetCurrentInterior() ~= 'MainMap' then
+                u13.GoToMainMap()
+                v493:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+            elseif CheckTime() == false then
+                if not v492.is_queued then
+                    v493:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                end
+            elseif v493 and CheckTime() < 30 then
+                if not v492.is_queued then
+                    v493:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                end
+            elseif u198 then
+                v493:SetPrimaryPartCFrame(CFrame.new(84.2065735, 35.3116302, -1351.55505))
+            elseif not v492.is_queued then
+                v493:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+            end
+        end
+        if v492.is_participating then
+            if not (workspace.Interiors:FindFirstChild('BlossomShakedownInterior') or workspace.Interiors:FindFirstChild('BlossomShakedownInterior'):FindFirstChild('Rings')) then
+                u57.AutofarmCherryBlossom.Running = false
+
+                return
+            end
+
+            while u57.AutofarmCherryBlossom.State and (u13.GetCurrentInterior() == 'BlossomShakedownInterior' and v492.is_participating) do
+                task.wait()
+
+                local v494, v495, v496 = pairs(workspace.Interiors.BlossomShakedownInterior.Rings:GetChildren())
+
+                while true do
+                    local v497
+
+                    v496, v497 = v494(v495, v496)
+
+                    if v496 == nil then
+                        break
+                    end
+                    if v497:IsA('Model') then
+                        local v498 = {
+                            'blossom_shakedown',
+                            'petal_ring_flown_through',
+                            v497.Name,
+                        }
+
+                        u13.RunRouterClient(true, 'MinigameAPI/MessageServer', v498)
+                        task.wait(3.2)
+
+                        if not u57.AutofarmCherryBlossom.State or (u13.GetCurrentInterior() ~= 'BlossomShakedownInterior' or not v492.is_participating) then
+                            break
+                        end
+                    end
+                end
+            end
+        end
+
+        u57.AutofarmCherryBlossom.Running = false
+    end)
+
+    if not v499 then
+        warn('Something went wrong: ' .. v500)
+
+        u57.AutofarmCherryBlossom.Running = false
+    end
+end
+local function u520()
+    local v518, v519 = pcall(function()
+        local v502 = require(game.ReplicatedStorage.SharedModules.ContentPacks.Springfest2025.Minigames.BlossomMinigameClient)
+        local v503 = require(game.ReplicatedStorage.SharedModules.ContentPacks.Springfest2025.Minigames.KaijuStompMinigameClient)
+
+        if u13.GetCurrentInterior() ~= 'BlossomShakedownInterior' and u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' then
+            local v504 = _LocalPlayer.Character or _LocalPlayer.CharacterAdded:Wait()
+
+            if u13.GetCurrentInterior() ~= 'MainMap' then
+                u13.GoToMainMap()
+                v504:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+            elseif CheckTime() == false or CheckTime2() == false then
+                if not v502.is_queued then
+                    v504:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                end
+            elseif v504 then
+                if CheckTime() >= CheckTime2() then
+                    if u198 then
+                        if CheckTime2() >= 30 then
+                            v504:SetPrimaryPartCFrame(CFrame.new(84.2065735, 35.3116302, -1351.55505))
+                        elseif not v503.is_queued then
+                            v504:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                            task.wait(0.5)
+                            v504:SetPrimaryPartCFrame(CFrame.new(111.015358, 30.8523083, -1464.83508))
+                        end
+                    elseif not v503.is_queued then
+                        v504:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                        task.wait(0.5)
+                        v504:SetPrimaryPartCFrame(CFrame.new(111.015358, 30.8523083, -1464.83508))
+                    end
+                elseif u198 then
+                    if CheckTime() >= 30 then
+                        v504:SetPrimaryPartCFrame(CFrame.new(84.2065735, 35.3116302, -1351.55505))
+                    elseif not v502.is_queued then
+                        v504:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                    end
+                elseif not v502.is_queued then
+                    v504:SetPrimaryPartCFrame(CFrame.new(74.2707138, 42.0637207, -1569.01685))
+                end
+            end
+        end
+        if v502.is_participating then
+            if not (workspace.Interiors:FindFirstChild('BlossomShakedownInterior') or workspace.Interiors:FindFirstChild('BlossomShakedownInterior'):FindFirstChild('Rings')) then
+                u57.AutofarmKaijuStompAndBlossom.Running = false
+
+                return
+            end
+
+            while u57.AutofarmKaijuStompAndBlossom.State and (u13.GetCurrentInterior() == 'BlossomShakedownInterior' and v502.is_participating) do
+                task.wait()
+
+                local v505, v506, v507 = pairs(workspace.Interiors.BlossomShakedownInterior.Rings:GetChildren())
+
+                while true do
+                    local v508
+
+                    v507, v508 = v505(v506, v507)
+
+                    if v507 == nil then
+                        break
+                    end
+                    if v508:IsA('Model') then
+                        local v509 = {
+                            'blossom_shakedown',
+                            'petal_ring_flown_through',
+                            v508.Name,
+                        }
+
+                        u13.RunRouterClient(true, 'MinigameAPI/MessageServer', v509)
+                        task.wait(3.2)
+
+                        if not u57.AutofarmKaijuStompAndBlossom.State or (u13.GetCurrentInterior() ~= 'BlossomShakedownInterior' or not v502.is_participating) then
+                            break
+                        end
+                    end
+                end
+            end
+        end
+        if v503.is_participating then
+            if u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' then
+                print(u13.extractName(u13.GetCurrentInterior()))
+
+                u57.AutofarmKaijuStompAndBlossom.Running = false
+
+                return
+            end
+
+            local v510, v511, v512 = pairs(workspace.StaticMap:GetChildren())
+            local v513 = ''
+
+            while true do
+                local v514
+
+                v512, v514 = v510(v511, v512)
+
+                if v512 == nil then
+                    break
+                end
+
+                task.wait()
+
+                local v515 = 'tear_up_toykyo::'
+                local v516 = '_minigame_state'
+
+                if string.sub(v514.Name, 1, #v515) == v515 then
+                    v513 = v514.Name
+
+                    if string.sub(v513, -#v516) == v516 then
+                        v513 = string.sub(v513, 1, #v513 - #v516)
+                    end
+
+                    break
+                end
+
+                v513 = ''
+            end
+
+            if v513 == '' then
+                return
+            end
+
+            while u57.AutofarmKaijuStompAndBlossom.State and (u13.extractName(u13.GetCurrentInterior()) == 'KaijuStompMinigame' and v503.is_participating) do
+                task.wait()
+
+                for v517 = 0, 3000 do
+                    u13.RunRouterClient(true, 'MinigameAPI/MessageServer', {
+                        v513,
+                        'building_destroyed',
+                        v517,
+                    })
+
+                    if v517 % 10 == 0 and v517 ~= 0 then
+                        task.wait()
+                    end
+                    if not u57.AutofarmKaijuStompAndBlossom.State or (u13.extractName(u13.GetCurrentInterior()) ~= 'KaijuStompMinigame' or not v503.is_participating) then
+                        break
+                    end
+                end
+            end
+        end
+
+        u57.AutofarmKaijuStompAndBlossom.Running = false
+    end)
+
+    if not v518 then
+        warn('Something went wrong: ' .. v519)
+
+        u57.AutofarmKaijuStompAndBlossom.Running = false
+    end
+end
+local function u524(p521)
+    local _, _ = pcall(function()
+        local v522 = u13.GetPlayerMoney()
+        local v523 = u13.GetPlayerPotionAmount()
+
+        if u54 < v522 then
+            u53 = u53 + (v522 - u54)
+        end
+        if u56 < v523 then
+            u55 = u55 + (v523 - u56)
+        end
+
+        u56 = v523
+        u54 = v522
+
+        if p521 then
+            _Youearned0Bucks:Set('You earned: ' .. u53 .. ' Bucks', 'circle-dollar-sign', nil, false)
+            _Youfarmed0AgePotions:Set('You farmed: ' .. u55 .. ' Age Potions', 'cup-soda', nil, false)
+        end
+    end)
+end
+
+_RunService.RenderStepped:Connect(function()
+    if getgenv().TbiConfigs and not getgenv().TbiConfigs[u6].State then
+        u14:Destroy()
+    end
+    if u40 < tick() - u41 and (getgenv().TbiConfigs and getgenv().TbiConfigs[u6].State) then
+        u41 = tick()
+
+        if string.find(u36, 'discord.com/api') and (u37 and u35 < tick() - u34) then
+            u34 = tick()
+
+            u524(false)
+
+            local _, _ = pcall(function()
+                SendNothicationToWebhook()
+            end)
+        end
+
+        task.spawn(function()
+            if u57.PetAutofarm.State and not (u57.PetAutofarm.Running or IsOtherAutofarmOn('PetAutofarm')) then
+                u57.PetAutofarm.Running = true
+
+                u403()
+            end
+            if u57.AgePotionFarm.State and not (u57.AgePotionFarm.Running or IsOtherAutofarmOn('AgePotionFarm')) then
+                u57.AgePotionFarm.Running = true
+
+                u426()
+            end
+            if u57.AutoHatchEggs.State and not (u57.AutoHatchEggs.Running or IsOtherAutofarmOn('AutoHatchEggs')) then
+                u57.AutoHatchEggs.Running = true
+
+                u457()
+            end
+            if u57.AutoGiveAgePotions.State and not (u57.AutoGiveAgePotions.Running or IsOtherAutofarmOn('AutoGiveAgePotions')) then
+                u57.AutoGiveAgePotions.Running = true
+
+                u464()
+            end
+            if u57.AutofarmCherryBlossom.State and not (u57.AutofarmCherryBlossom.Running or IsOtherAutofarmOn('AutofarmCherryBlossom')) then
+                u57.AutofarmCherryBlossom.Running = true
+
+                u501()
+            end
+            if u57.AutofarmKaijuStomp.State and not (u57.AutofarmKaijuStomp.Running or IsOtherAutofarmOn('AutofarmKaijuStomp')) then
+                u57.AutofarmKaijuStomp.Running = true
+
+                u491()
+            end
+            if u57.AutofarmKaijuStompAndBlossom.State and not (u57.AutofarmKaijuStompAndBlossom.Running or IsOtherAutofarmOn('AutofarmKaijuStompAndBlossom')) then
+                u57.AutofarmKaijuStompAndBlossom.Running = true
+
+                u520()
+            end
+        end)
+
+        if workspace:FindFirstChild('StaticMap') and (workspace:FindFirstChild('StaticMap'):FindFirstChild('Campsite') and workspace:FindFirstChild('StaticMap'):FindFirstChild('Campsite'):FindFirstChild('CampsiteOrigin')) then
+            workspace:FindFirstChild('StaticMap'):FindFirstChild('Campsite'):FindFirstChild('CampsiteOrigin'):Destroy()
+        end
+        if workspace.Terrain then
+            workspace.Terrain:Clear()
+        end
+        if not u62 then
+            u524(true)
+        end
+
+        task.spawn(function()
+            if u30 and not u31 then
+                u31 = true
+
+                local _, _ = pcall(function()
+                    if u13.GetCurrentInterior() == 'housing' then
+                        local _Lures2023NormalLure = u13.GetFurniture('Lures2023NormalLure')
+
+                        if string.sub(_Lures2023NormalLure, 1, 2) == 'f-' then
+                            u32 = _Lures2023NormalLure
+                        end
+                    end
+                    if u32 ~= '' then
+                        local v526 = u13.GetFoodToGive(u33)
+
+                        if not v526 then
+                            return
+                        end
+
+                        local v527 = {
+                            game:GetService('Players').LocalPlayer,
+                            u32,
+                            'UseBlock',
+                            {bait_unique = v526},
+                            game:GetService('Players').LocalPlayer.Character,
+                        }
+
+                        u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v527)
+                        task.wait(1)
+
+                        local v528 = {
+                            game:GetService('Players').LocalPlayer,
+                            u32,
+                            'UseBlock',
+                            false,
+                            game:GetService('Players').LocalPlayer.Character,
+                        }
+
+                        u13.RunRouterClient(false, 'HousingAPI/ActivateFurniture', v528)
+                    end
+                end)
+
+                task.wait(5)
+
+                u31 = false
+            end
+        end)
+    end
 end)
 
-UIS.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-		if dragToggle then
-			updateInput(input)
-		end
-	end
-end)
+local v529 = u14
+
+u14.LoadConfiguration(v529)
