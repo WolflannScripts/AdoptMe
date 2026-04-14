@@ -1,0 +1,899 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local CoreGui = game:GetService("CoreGui")
+
+local toggleButtonExpandedPosition = UDim2.new(0, 10, -40, 80) -- когда GUI открыт
+local toggleButtonCollapsedPosition = UDim2.new(0, 10, 0, 200) -- НИЖЕ, когда свернуто
+
+local toggleButtonPosition = toggleButtonCollapsedPosition
+local isGUIOpen = false
+local mainGUI
+
+local ToggleScreenGui = Instance.new("ScreenGui")
+ToggleScreenGui.Name = "TradeToggleButton"
+ToggleScreenGui.Parent = CoreGui
+ToggleScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ToggleScreenGui.IgnoreGuiInset = true
+ToggleScreenGui.ResetOnSpawn = false
+
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Size = UDim2.new(0, 60, 0, 30)
+ToggleButton.Position = toggleButtonPosition
+ToggleButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+ToggleButton.BackgroundTransparency = 0.1
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Text = "TRADE"
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.Font = Enum.Font.GothamBold
+ToggleButton.TextSize = 12
+ToggleButton.ZIndex = 1000
+
+local ToggleCorner = Instance.new("UICorner")
+ToggleCorner.CornerRadius = UDim.new(0, 6)
+ToggleCorner.Parent = ToggleButton
+
+local ToggleStroke = Instance.new("UIStroke")
+ToggleStroke.Color = Color3.fromRGB(60, 60, 80)
+ToggleStroke.Thickness = 2
+ToggleStroke.Parent = ToggleButton
+
+ToggleButton.Parent = ToggleScreenGui
+
+-- Функция для перемещения кнопки Trade
+local toggleDragging = false
+local toggleDragInput
+local toggleDragStart
+local toggleStartPos
+
+local function updateToggleButton(input)
+    local delta = input.Position - toggleDragStart
+    local newX = math.clamp(toggleStartPos.X.Offset + delta.X, 0, workspace.CurrentCamera.ViewportSize.X - 60)
+    local newY = math.clamp(toggleStartPos.Y.Offset + delta.Y, 0, workspace.CurrentCamera.ViewportSize.Y - 30)
+    
+    ToggleButton.Position = UDim2.new(toggleStartPos.X.Scale, newX, toggleStartPos.Y.Scale, newY)
+    toggleButtonPosition = ToggleButton.Position
+end
+
+ToggleButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        toggleDragging = true
+        toggleDragStart = input.Position
+        toggleStartPos = ToggleButton.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                toggleDragging = false
+            end
+        end)
+    end
+end)
+
+ToggleButton.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        toggleDragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if toggleDragging and input == toggleDragInput then
+        updateToggleButton(input)
+    end
+end)
+
+-- Функция для создания основного GUI
+local function CreateTradeGUI()
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "TradeRequestButton"
+    ScreenGui.Parent = CoreGui
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.IgnoreGuiInset = true
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.DisplayOrder = 999999 -- Максимально высокий приоритет
+
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "TradeControlPanel"
+    MainFrame.Size = UDim2.new(0, 180, 0, 320)
+    MainFrame.Position = UDim2.new(0, toggleButtonPosition.X.Offset + 70, math.min(toggleButtonPosition.Y.Scale, toggleButtonPosition.Y.Offset))
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    MainFrame.BackgroundTransparency = 0.1
+    MainFrame.BorderSizePixel = 0
+    MainFrame.ZIndex = 999999
+
+    -- Создаем заголовок для перетаскивания
+    local DragFrame = Instance.new("Frame")
+    DragFrame.Name = "DragFrame"
+    DragFrame.Size = UDim2.new(1, 0, 0, 25)
+    DragFrame.Position = UDim2.new(0, 0, 0, 0)
+    DragFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    DragFrame.BackgroundTransparency = 0.1
+    DragFrame.BorderSizePixel = 0
+    DragFrame.ZIndex = 1000000
+
+    local DragCorner = Instance.new("UICorner")
+    DragCorner.CornerRadius = UDim.new(0, 12)
+    DragCorner.Parent = DragFrame
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Name = "Title"
+    TitleLabel.Size = UDim2.new(0, 100, 0, 25)
+    TitleLabel.Position = UDim2.new(0, 10, 0, 0)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = "TRADE CONTROL"
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.TextSize = 11
+    TitleLabel.ZIndex = 1000001
+    TitleLabel.Parent = DragFrame
+
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Name = "CloseButton"
+    CloseButton.Size = UDim2.new(0, 25, 0, 25)
+    CloseButton.Position = UDim2.new(1, -25, 0, 0)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+    CloseButton.BorderSizePixel = 0
+    CloseButton.Text = "X"
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.TextSize = 11
+    CloseButton.ZIndex = 1000001
+    CloseButton.Parent = DragFrame
+
+    local CloseButtonCorner = Instance.new("UICorner")
+    CloseButtonCorner.CornerRadius = UDim.new(0, 12)
+    CloseButtonCorner.Parent = CloseButton
+
+    DragFrame.Parent = MainFrame
+
+    local MainCorner = Instance.new("UICorner")
+    MainCorner.CornerRadius = UDim.new(0, 12)
+    MainCorner.Parent = MainFrame
+
+    local MainStroke = Instance.new("UIStroke")
+    MainStroke.Color = Color3.fromRGB(60, 60, 80)
+    MainStroke.Thickness = 2
+    MainStroke.Parent = MainFrame
+
+    MainFrame.Parent = ScreenGui
+
+    -- Функция для перемещения GUI
+    local dragging = false
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        local newX = math.clamp(startPos.X.Offset + delta.X, 0, workspace.CurrentCamera.ViewportSize.X - 180)
+        local newY = math.clamp(startPos.Y.Offset + delta.Y, 0, workspace.CurrentCamera.ViewportSize.Y - 320)
+        
+        MainFrame.Position = UDim2.new(startPos.X.Scale, newX, startPos.Y.Scale, newY)
+    end
+
+    DragFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = MainFrame.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    DragFrame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input == dragInput then
+            update(input)
+        end
+    end)
+
+    -- Функция для закрытия GUI
+   CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+
+    toggleButtonPosition = toggleButtonCollapsedPosition
+    ToggleButton.Position = toggleButtonCollapsedPosition
+
+    ToggleButton.Visible = true
+    isGUIOpen = false
+end)
+    -- Эффекты при наведении на кнопку закрытия
+    CloseButton.MouseEnter:Connect(function()
+        CloseButton.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+    end)
+
+    CloseButton.MouseLeave:Connect(function()
+        CloseButton.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+    end)
+
+    local StartTradeButton = Instance.new("TextButton")
+    StartTradeButton.Name = "StartVisualTradeRequest"
+    StartTradeButton.Size = UDim2.new(0, 160, 0, 35)
+    StartTradeButton.Position = UDim2.new(0, 10, 0, 30)
+    StartTradeButton.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
+    StartTradeButton.BorderSizePixel = 0
+    StartTradeButton.Text = "START TRADE (5)"
+    StartTradeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    StartTradeButton.Font = Enum.Font.GothamBold
+    StartTradeButton.TextSize = 14
+    StartTradeButton.ZIndex = 999999
+
+    local StartButtonCorner = Instance.new("UICorner")
+    StartButtonCorner.CornerRadius = UDim.new(0, 8)
+    StartButtonCorner.Parent = StartTradeButton
+
+    local StartButtonStroke = Instance.new("UIStroke")
+    StartButtonStroke.Color = Color3.fromRGB(60, 140, 60)
+    StartButtonStroke.Thickness = 2
+    StartButtonStroke.Parent = StartTradeButton
+
+    StartTradeButton.Parent = MainFrame
+
+    local SpectatorFrame = Instance.new("Frame")
+    SpectatorFrame.Name = "SpectatorSelection"
+    SpectatorFrame.Size = UDim2.new(0, 160, 0, 25)
+    SpectatorFrame.Position = UDim2.new(0, 10, 0, 70)
+    SpectatorFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    SpectatorFrame.BackgroundTransparency = 0.1
+    SpectatorFrame.BorderSizePixel = 0
+    SpectatorFrame.ZIndex = 999999
+
+    local SpectatorCorner = Instance.new("UICorner")
+    SpectatorCorner.CornerRadius = UDim.new(0, 6)
+    SpectatorCorner.Parent = SpectatorFrame
+
+    SpectatorFrame.Parent = MainFrame
+
+    local SpectatorButtons = {}
+
+    for Index = 1, 5 do
+        local SpectatorButton = Instance.new("TextButton")
+        SpectatorButton.Name = "Spectator" .. Index
+        SpectatorButton.Size = UDim2.new(0, 28, 0, 20)
+        SpectatorButton.Position = UDim2.new(0, 5 + (Index - 1) * 31, 0, 2)
+        SpectatorButton.BackgroundColor3 = Index == 5 and Color3.fromRGB(85, 170, 85) or Color3.fromRGB(80, 80, 80)
+        SpectatorButton.BorderSizePixel = 0
+        SpectatorButton.Text = tostring(Index)
+        SpectatorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        SpectatorButton.Font = Enum.Font.GothamBold
+        SpectatorButton.TextSize = 10
+        SpectatorButton.ZIndex = 1000000
+
+        local ButtonCorner = Instance.new("UICorner")
+        ButtonCorner.CornerRadius = UDim.new(0, 4)
+        ButtonCorner.Parent = SpectatorButton
+
+        SpectatorButton.Parent = SpectatorFrame
+        SpectatorButtons[Index] = SpectatorButton
+    end
+
+    local AddPetButton = Instance.new("TextButton")
+    AddPetButton.Name = "AddRandomPetButton"
+    AddPetButton.Size = UDim2.new(0, 160, 0, 25)
+    AddPetButton.Position = UDim2.new(0, 10, 0, 100)
+    AddPetButton.BackgroundColor3 = Color3.fromRGB(220, 120, 50)
+    AddPetButton.BorderSizePixel = 0
+    AddPetButton.Text = "ADD PET"
+    AddPetButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    AddPetButton.Font = Enum.Font.GothamBold
+    AddPetButton.TextSize = 11
+    AddPetButton.ZIndex = 999999
+
+    local AddPetCorner = Instance.new("UICorner")
+    AddPetCorner.CornerRadius = UDim.new(0, 6)
+    AddPetCorner.Parent = AddPetButton
+
+    local AddPetStroke = Instance.new("UIStroke")
+    AddPetStroke.Color = Color3.fromRGB(180, 80, 30)
+    AddPetStroke.Thickness = 1
+    AddPetStroke.Parent = AddPetButton
+
+    AddPetButton.Parent = MainFrame
+
+    local RemovePetButton = Instance.new("TextButton")
+    RemovePetButton.Name = "RemovePetButton"
+    RemovePetButton.Size = UDim2.new(0, 160, 0, 25)
+    RemovePetButton.Position = UDim2.new(0, 10, 0, 130)
+    RemovePetButton.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+    RemovePetButton.BorderSizePixel = 0
+    RemovePetButton.Text = "REMOVE PET"
+    RemovePetButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    RemovePetButton.Font = Enum.Font.GothamBold
+    RemovePetButton.TextSize = 11
+    RemovePetButton.ZIndex = 999999
+
+    local RemovePetCorner = Instance.new("UICorner")
+    RemovePetCorner.CornerRadius = UDim.new(0, 6)
+    RemovePetCorner.Parent = RemovePetButton
+
+    local RemovePetStroke = Instance.new("UIStroke")
+    RemovePetStroke.Color = Color3.fromRGB(150, 40, 40)
+    RemovePetStroke.Thickness = 1
+    RemovePetStroke.Parent = RemovePetButton
+
+    RemovePetButton.Parent = MainFrame
+
+    local PlayerSelectionFrame = Instance.new("Frame")
+    PlayerSelectionFrame.Name = "PlayerSelectionSection"
+    PlayerSelectionFrame.Size = UDim2.new(0, 160, 0, 150)
+    PlayerSelectionFrame.Position = UDim2.new(0, 10, 0, 160)
+    PlayerSelectionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    PlayerSelectionFrame.BorderSizePixel = 0
+    PlayerSelectionFrame.ZIndex = 999999
+
+    local PlayerSelectionCorner = Instance.new("UICorner")
+    PlayerSelectionCorner.CornerRadius = UDim.new(0, 8)
+    PlayerSelectionCorner.Parent = PlayerSelectionFrame
+
+    local PlayerSelectionStroke = Instance.new("UIStroke")
+    PlayerSelectionStroke.Color = Color3.fromRGB(70, 70, 90)
+    PlayerSelectionStroke.Thickness = 1
+    PlayerSelectionStroke.Parent = PlayerSelectionFrame
+
+    PlayerSelectionFrame.Parent = MainFrame
+
+    local PlayerSelectTitle = Instance.new("TextLabel")
+    PlayerSelectTitle.Name = "PlayerSelectTitle"
+    PlayerSelectTitle.Size = UDim2.new(1, 0, 0, 20)
+    PlayerSelectTitle.Position = UDim2.new(0, 0, 0, 0)
+    PlayerSelectTitle.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+    PlayerSelectTitle.BorderSizePixel = 0
+    PlayerSelectTitle.Text = "SELECT PLAYER"
+    PlayerSelectTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    PlayerSelectTitle.Font = Enum.Font.GothamBold
+    PlayerSelectTitle.TextSize = 11
+    PlayerSelectTitle.ZIndex = 1000000
+    PlayerSelectTitle.Parent = PlayerSelectionFrame
+
+    local TitleCorner = Instance.new("UICorner")
+    TitleCorner.CornerRadius = UDim.new(0, 8)
+    TitleCorner.Parent = PlayerSelectTitle
+
+    local PlayerListScroll = Instance.new("ScrollingFrame")
+    PlayerListScroll.Name = "PlayerList"
+    PlayerListScroll.Size = UDim2.new(1, -10, 1, -25)
+    PlayerListScroll.Position = UDim2.new(0, 5, 0, 20)
+    PlayerListScroll.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    PlayerListScroll.BorderSizePixel = 0
+    PlayerListScroll.ScrollBarThickness = 4
+    PlayerListScroll.ZIndex = 1000000
+    PlayerListScroll.Parent = PlayerSelectionFrame
+
+    local PlayerListLayout = Instance.new("UIListLayout")
+    PlayerListLayout.Padding = UDim.new(0, 2)
+    PlayerListLayout.Parent = PlayerListScroll
+
+    local SelectedPlayerLabel = Instance.new("TextLabel")
+    SelectedPlayerLabel.Name = "SelectedPlayerLabel"
+    SelectedPlayerLabel.Size = UDim2.new(0, 160, 0, 15)
+    SelectedPlayerLabel.Position = UDim2.new(0, 10, 0, 315)
+    SelectedPlayerLabel.BackgroundTransparency = 1
+    SelectedPlayerLabel.Text = "AdoptMe_Fan"
+    SelectedPlayerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SelectedPlayerLabel.Font = Enum.Font.Gotham
+    SelectedPlayerLabel.TextSize = 10
+    SelectedPlayerLabel.ZIndex = 999999
+    SelectedPlayerLabel.Parent = MainFrame
+
+    local SelectedPlayerIdLabel = Instance.new("TextLabel")
+    SelectedPlayerIdLabel.Name = "SelectedPlayerIdLabel"
+    SelectedPlayerIdLabel.Size = UDim2.new(0, 160, 0, 12)
+    SelectedPlayerIdLabel.Position = UDim2.new(0, 10, 0, 330)
+    SelectedPlayerIdLabel.BackgroundTransparency = 1
+    SelectedPlayerIdLabel.Text = "ID: 123456"
+    SelectedPlayerIdLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    SelectedPlayerIdLabel.Font = Enum.Font.Gotham
+    SelectedPlayerIdLabel.TextSize = 9
+    SelectedPlayerIdLabel.ZIndex = 999999
+    SelectedPlayerIdLabel.Parent = MainFrame
+
+    local SpectatorCount = 5
+    local SelectedPlayerName = "AdoptMe_Fan"
+    local SelectedPlayerId = 123456
+
+    local PetList = {
+        "ugc_refresh_2023_african_wild_dog",
+        "albino_monkey",
+        "arctic_reindeer",
+        "summerfest_2024_balloon_unicorn",
+        "bat_dragon",
+        "lures_2023_blazing_lion",
+        "easter_2024_candyfloss_chick",
+        "crow",
+        "frost_dragon",
+        "giraffe",
+        "pride_2022_goat",
+        "springfest_2023_hare",
+        "elf_hedgehog",
+        "owl",
+        "parrot",
+        "winter_2023_peppermint_penguin",
+        "shadow_dragon",
+        "summerfest_2023",
+        "meme_2023_sheeeeep",
+        "winter_2022_strawberry_shortcake_bat_dragon"
+    }
+
+    local function SetSpectatorCount(Count)
+        SpectatorCount = Count
+        StartTradeButton.Text = "START TRADE (" .. SpectatorCount .. ")"
+
+        for Index = 1, 5 do
+            SpectatorButtons[Index].BackgroundColor3 = Index == Count and Color3.fromRGB(85, 170, 85) or Color3.fromRGB(80, 80, 80)
+        end
+    end
+
+    local function RefreshPlayerList()
+        for _, Child in ipairs(PlayerListScroll:GetChildren()) do
+            if Child:IsA("TextButton") then
+                Child:Destroy()
+            end
+        end
+
+        for _, Player in ipairs(Players:GetPlayers()) do
+            if Player ~= LocalPlayer then
+                local PlayerButton = Instance.new("TextButton")
+                PlayerButton.Name = "Player_" .. Player.UserId
+                PlayerButton.Size = UDim2.new(1, 0, 0, 30)
+                PlayerButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+                PlayerButton.BorderSizePixel = 0
+                PlayerButton.Text = Player.Name
+                PlayerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                PlayerButton.Font = Enum.Font.Gotham
+                PlayerButton.TextSize = 10
+                PlayerButton.TextWrapped = true
+                PlayerButton.ZIndex = 1000001
+
+                local ButtonCorner = Instance.new("UICorner")
+                ButtonCorner.CornerRadius = UDim.new(0, 4)
+                ButtonCorner.Parent = PlayerButton
+
+                PlayerButton.MouseButton1Click:Connect(function()
+                    SelectedPlayerName = Player.Name
+                    SelectedPlayerId = Player.UserId
+                    SelectedPlayerLabel.Text = SelectedPlayerName
+                    SelectedPlayerIdLabel.Text = "ID: " .. SelectedPlayerId
+                    print("Selected player: " .. SelectedPlayerName .. " (ID: " .. SelectedPlayerId .. ")")
+                end)
+
+                PlayerButton.Parent = PlayerListScroll
+            end
+        end
+
+        local CustomPlayers = {
+            { Name = "cammyxboba", UserId = 901819690 },
+            { Name = "rainbowriley321", UserId = 154241943 },
+            { Name = "roplexyoutube", UserId = 1676706728 },
+            { Name = "j3llynoah", UserId = 9190499461 }
+        }
+
+        for _, CustomPlayer in ipairs(CustomPlayers) do
+            local CustomButton = Instance.new("TextButton")
+            CustomButton.Name = "Custom_" .. CustomPlayer.Name
+            CustomButton.Size = UDim2.new(1, 0, 0, 30)
+            CustomButton.BackgroundColor3 = Color3.fromRGB(85, 107, 47)
+            CustomButton.BorderSizePixel = 0
+            CustomButton.Text = CustomPlayer.Name
+            CustomButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            CustomButton.Font = Enum.Font.Gotham
+            CustomButton.TextSize = 10
+            CustomButton.TextWrapped = true
+            CustomButton.ZIndex = 1000001
+
+            local ButtonCorner = Instance.new("UICorner")
+            ButtonCorner.CornerRadius = UDim.new(0, 4)
+            ButtonCorner.Parent = CustomButton
+
+            CustomButton.MouseButton1Click:Connect(function()
+                SelectedPlayerName = CustomPlayer.Name
+                SelectedPlayerId = CustomPlayer.UserId
+                SelectedPlayerLabel.Text = SelectedPlayerName
+                SelectedPlayerIdLabel.Text = "ID: " .. SelectedPlayerId
+                print("Selected custom player: " .. SelectedPlayerName .. " (ID: " .. SelectedPlayerId .. ")")
+            end)
+
+            CustomButton.Parent = PlayerListScroll
+        end
+
+        PlayerListScroll.CanvasSize = UDim2.new(0, 0, 0, PlayerListLayout.AbsoluteContentSize.Y)
+    end
+
+    local function FormatPetName(PetKind)
+        return PetKind:gsub("_", " "):gsub("(%a)([%w_']*)", function(First, Rest)
+            return First:upper() .. Rest:lower()
+        end)
+    end
+
+    local function AddPetToPartnerOffer()
+        local Fsys = require(game.ReplicatedStorage:WaitForChild("Fsys"))
+        local TradeApp = Fsys.load("UIManager").apps.TradeApp
+
+        if TradeApp and TradeApp:_get_local_trade_state() then
+            local TradeState = TradeApp:_get_local_trade_state()
+            local SenderItems = TradeState.sender_offer.items or {}
+
+            local RandomPet = PetList[math.random(1, #PetList)]
+
+            local PropertyOptions = {
+                { mega_neon = true, flyable = true, rideable = true },
+                { neon = true, flyable = true, rideable = true },
+                { flyable = true, rideable = true }
+            }
+
+            local RandomProperties = PropertyOptions[math.random(1, #PropertyOptions)]
+
+            local NewPet = {
+                unique = "pet_" .. RandomPet .. "_" .. math.random(10000, 99999),
+                category = "pets",
+                kind = RandomPet,
+                properties = RandomProperties
+            }
+
+            table.insert(SenderItems, NewPet)
+
+            TradeApp:_change_local_trade_state({
+                sender_offer = {
+                    items = SenderItems,
+                    negotiated = TradeState.sender_offer.negotiated,
+                    confirmed = TradeState.sender_offer.confirmed,
+                    player_name = TradeState.sender_offer.player_name
+                }
+            })
+
+            TradeApp:refresh_all()
+            TradeApp:_lock_trade_for_appropriate_time()
+
+            local PetPrefix = RandomProperties.mega_neon and "MFR" or (RandomProperties.neon and "NFR" or "FR")
+            TradeApp:_render_message_in_trade_chat(nil, SelectedPlayerName .. " added " .. PetPrefix .. " " .. FormatPetName(RandomPet), false, true)
+
+            print("Added " .. PetPrefix .. " " .. RandomPet .. " to partner's offer! (5-second lock activated)")
+        else
+            print("No active trade found! Start a trade first.")
+        end
+    end
+
+    local function RemovePetFromPartnerOffer()
+        local Fsys = require(game.ReplicatedStorage:WaitForChild("Fsys"))
+        local TradeApp = Fsys.load("UIManager").apps.TradeApp
+
+        if TradeApp and TradeApp:_get_local_trade_state() then
+            local TradeState = TradeApp:_get_local_trade_state()
+            local SenderItems = TradeState.sender_offer.items or {}
+
+            if #SenderItems <= 0 then
+                print("No pets to remove from partner's offer!")
+                return
+            end
+
+            local RemovedPet = table.remove(SenderItems)
+
+            TradeApp:_change_local_trade_state({
+                sender_offer = {
+                    items = SenderItems,
+                    negotiated = TradeState.sender_offer.negotiated,
+                    confirmed = TradeState.sender_offer.confirmed,
+                    player_name = TradeState.sender_offer.player_name
+                }
+            })
+
+            TradeApp:refresh_all()
+            TradeApp:_lock_trade_for_appropriate_time()
+
+            local PetPrefix = RemovedPet.properties.mega_neon and "MFR" or (RemovedPet.properties.neon and "NFR" or "FR")
+            TradeApp:_render_message_in_trade_chat(nil, SelectedPlayerName .. " removed " .. PetPrefix .. " " .. FormatPetName(RemovedPet.kind), false, true)
+
+            print("Removed " .. PetPrefix .. " " .. RemovedPet.kind .. " from partner's offer! (5-second lock activated)")
+        else
+            print("No active trade found! Start a trade first.")
+        end
+    end
+
+    local function StartVisualTrade()
+        local Fsys = require(game.ReplicatedStorage:WaitForChild("Fsys"))
+
+        local FakePartner = {
+            Name = SelectedPlayerName,
+            UserId = SelectedPlayerId,
+            DisplayName = SelectedPlayerName
+        }
+
+        local DialogResponse = Fsys.load("UIManager").apps.DialogApp:dialog({
+            text = string.format("%s sent you a trade request", FakePartner.Name),
+            left = "Decline",
+            right = "Accept"
+        })
+
+        print("Trade request response:", DialogResponse)
+
+        if DialogResponse == "Accept" then
+            local UIManager = Fsys.load("UIManager")
+            local TradeApp = UIManager.apps.TradeApp
+
+            if TradeApp then
+                local TradeState = {
+                    trade_id = "visual_trade_" .. math.random(10000, 99999),
+                    sender = FakePartner,
+                    recipient = LocalPlayer,
+                    sender_offer = {
+                        items = {},
+                        negotiated = false,
+                        confirmed = false,
+                        player_name = FakePartner.Name
+                    },
+                    recipient_offer = {
+                        items = {},
+                        negotiated = false,
+                        confirmed = false,
+                        player_name = LocalPlayer.Name
+                    },
+                    current_stage = "negotiation",
+                    offer_version = 1,
+                    sender_has_trade_license = true,
+                    recipient_has_trade_license = true,
+                    busy_indicators = {},
+                    subscriber_count = SpectatorCount
+                }
+
+                print("Setting up COMPLETELY EMPTY trade with " .. SpectatorCount .. " spectators...")
+                print("Trading with: " .. SelectedPlayerName .. " (ID: " .. SelectedPlayerId .. ")")
+
+                TradeApp:_overwrite_local_trade_state(TradeState)
+                UIManager.set_app_visibility("TradeApp", true)
+
+                wait(0.5)
+                TradeApp:refresh_all()
+
+                print("Trade window opened - COMPLETELY EMPTY!")
+                print("You can now:")
+                print("   - Click ADD PET to add pets to partner (5-second lock)")
+                print("   - Click REMOVE PET to remove pets from partner (5-second lock)")
+                print("   - Click the + button in trade to add your own items")
+                print("   - Click on any item in the trade to remove it")
+                print("   - Click Accept when ready")
+                print("   - Trade will auto-progress")
+
+                local OriginalAccept = TradeApp._on_accept_pressed
+                local OriginalConfirm = TradeApp._on_confirm_pressed
+                local OriginalRemove = TradeApp._remove_item_from_my_offer
+
+                function TradeApp._remove_item_from_my_offer(Self, Item)
+                    print("Removing item using ORIGINAL GAME METHOD:", Item.unique)
+
+                    local CurrentState = Self:_get_local_trade_state()
+                    local SenderItems = CurrentState.sender_offer.items or {}
+
+                    local FoundIndex = nil
+
+                    for Index, SenderItem in ipairs(SenderItems) do
+                        if SenderItem.unique == Item.unique then
+                            FoundIndex = Index
+                            break
+                        end
+                    end
+
+                    if FoundIndex then
+                        print("Removing partner item using original method")
+                        table.remove(SenderItems, FoundIndex)
+
+                        Self:_change_local_trade_state({
+                            sender_offer = {
+                                items = SenderItems,
+                                negotiated = CurrentState.sender_offer.negotiated,
+                                confirmed = CurrentState.sender_offer.confirmed,
+                                player_name = CurrentState.sender_offer.player_name
+                            }
+                        })
+
+                        Self:_lock_trade_for_appropriate_time()
+                        Self:refresh_all()
+                        Self:_render_message_in_trade_chat(nil, SelectedPlayerName .. " removed " .. FormatPetName(Item.kind), false, true)
+
+                        print("SUCCESS! Removed " .. Item.kind .. " from partner's offer using original method!")
+                    else
+                        print("Removing your item using original method")
+                        OriginalRemove(Self, Item)
+                    end
+                end
+
+                function TradeApp._on_accept_pressed(Self)
+                    print("User clicked Accept!")
+
+                    local CurrentState = Self:_get_local_trade_state()
+
+                    if CurrentState then
+                        Self:_change_local_trade_state({
+                            recipient_offer = {
+                                items = CurrentState.recipient_offer.items,
+                                negotiated = true,
+                                confirmed = false,
+                                player_name = LocalPlayer.Name
+                            }
+                        })
+
+                        Self:refresh_all()
+                        print("You accepted! Auto-accepting partner in 2 seconds...")
+
+                        wait(2)
+
+                        Self:_change_local_trade_state({
+                            sender_offer = {
+                                items = CurrentState.sender_offer.items,
+                                negotiated = true,
+                                confirmed = false,
+                                player_name = FakePartner.Name
+                            },
+                            current_stage = "confirmation",
+                            offer_version = CurrentState.offer_version + 1,
+                            subscriber_count = SpectatorCount
+                        })
+
+                        Self:refresh_all()
+                        print("BOTH ACCEPTED! Now in confirmation stage.")
+
+                        function TradeApp._on_confirm_pressed(ConfirmSelf)
+                            print("User clicked Confirm!")
+
+                            local ConfirmState = ConfirmSelf:_get_local_trade_state()
+
+                            if ConfirmState then
+                                ConfirmSelf:_change_local_trade_state({
+                                    recipient_offer = {
+                                        items = ConfirmState.recipient_offer.items,
+                                        negotiated = true,
+                                        confirmed = true,
+                                        player_name = LocalPlayer.Name
+                                    }
+                                })
+
+                                ConfirmSelf:refresh_all()
+                                print("You confirmed! Auto-confirming partner in 2 seconds...")
+
+                                wait(2)
+
+                                ConfirmSelf:_change_local_trade_state({
+                                    sender_offer = {
+                                        items = ConfirmState.sender_offer.items,
+                                        negotiated = true,
+                                        confirmed = true,
+                                        player_name = FakePartner.Name
+                                    },
+                                    subscriber_count = SpectatorCount
+                                })
+
+                                ConfirmSelf:refresh_all()
+                                print("BOTH CONFIRMED! Finishing trade...")
+
+                                wait(2)
+
+                                pcall(function()
+                                    if ConfirmSelf.frame and ConfirmSelf.frame.Parent then
+                                        ConfirmSelf.frame:Destroy()
+                                        print("Trade UI destroyed!")
+                                    end
+
+                                    ConfirmSelf:hide()
+                                    ConfirmSelf:_overwrite_local_trade_state(nil)
+
+                                    TradeApp._on_accept_pressed = OriginalAccept
+                                    TradeApp._on_confirm_pressed = OriginalConfirm
+                                    TradeApp._remove_item_from_my_offer = OriginalRemove
+                                end)
+
+                                Fsys.load("UIManager").apps.HintApp:hint({
+                                    text = "The trade was successful!",
+                                    length = 3,
+                                    overridable = true
+                                })
+
+                                print("Trade finished!")
+                            end
+                        end
+                    end
+                end
+
+                delay(60, function()
+                    if TradeApp._on_accept_pressed ~= OriginalAccept then
+                        TradeApp._on_accept_pressed = OriginalAccept
+                        print("Trade timeout - methods restored")
+                    end
+
+                    if TradeApp._on_confirm_pressed ~= OriginalConfirm then
+                        TradeApp._on_confirm_pressed = OriginalConfirm
+                    end
+
+                    if TradeApp._remove_item_from_my_offer ~= OriginalRemove then
+                        TradeApp._remove_item_from_my_offer = OriginalRemove
+                    end
+                end)
+            else
+                print("TradeApp not found")
+            end
+        else
+            print("Trade declined!")
+        end
+    end
+
+    for Index = 1, 5 do
+        SpectatorButtons[Index].MouseButton1Click:Connect(function()
+            SetSpectatorCount(Index)
+        end)
+    end
+
+    AddPetButton.MouseButton1Click:Connect(function()
+        AddPetToPartnerOffer()
+    end)
+
+    RemovePetButton.MouseButton1Click:Connect(function()
+        RemovePetFromPartnerOffer()
+    end)
+
+    StartTradeButton.MouseButton1Click:Connect(function()
+        StartVisualTrade()
+    end)
+
+    StartTradeButton.MouseEnter:Connect(function()
+        StartTradeButton.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
+    end)
+
+    StartTradeButton.MouseLeave:Connect(function()
+        StartTradeButton.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
+    end)
+
+    AddPetButton.MouseEnter:Connect(function()
+        AddPetButton.BackgroundColor3 = Color3.fromRGB(240, 140, 70)
+    end)
+
+    AddPetButton.MouseLeave:Connect(function()
+        AddPetButton.BackgroundColor3 = Color3.fromRGB(220, 120, 50)
+    end)
+
+    RemovePetButton.MouseEnter:Connect(function()
+        RemovePetButton.BackgroundColor3 = Color3.fromRGB(220, 80, 80)
+    end)
+
+    RemovePetButton.MouseLeave:Connect(function()
+        RemovePetButton.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+    end)
+
+    SetSpectatorCount(5)
+    RefreshPlayerList()
+    
+    return ScreenGui
+end
+
+ToggleButton.MouseButton1Click:Connect(function()
+    if not toggleDragging then
+        mainGUI = CreateTradeGUI()
+        ToggleButton.Visible = false
+        isGUIOpen = true
+    end
+end)
+
+ToggleButton.MouseEnter:Connect(function()
+    if not toggleDragging then
+        ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+    end
+end)
+
+ToggleButton.MouseLeave:Connect(function()
+    if not toggleDragging then
+        ToggleButton.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    end
+end)
+
+print("Trade Control System Initialized!")
+print("Click and drag the TRADE button to move it")
+print("Click the TRADE button to open the control panel")
+print("Use the 'X' button to close the panel and show the TRADE button again")
+print("Main GUI will always be on top of everything!")
